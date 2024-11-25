@@ -1,0 +1,121 @@
+﻿<Page x:Class="QuanLyChungCu.Pages.Dashboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QuanLyChungCu.Pages"
+      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Dashboard">
+
+    <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <materialDesign:Card Grid.Column="0" Height="130"
+                             Background="#00a65a"
+                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <StackPanel >
+                            <TextBlock x:Name="CountCanHo" FontSize="30" Text="32" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock FontSize="16" Text="Căn hộ" Margin="10 0 0 10" Foreground="White"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <materialDesign:PackIcon Kind="Home" Width="80" Height="80" Foreground="White" Margin="0 10 0 10"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1" Background="#029452">
+                    <TextBlock x:Name="txtXemCanHo" Foreground="White" Margin="6"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource MaterialDesignBody2TextBlock}"
+                               Text="Xem danh sách" />
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Column="1" Margin="5"  Height="130"
+                             Padding="0" Background="#f5af3f"
+                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <StackPanel >
+                            <TextBlock FontSize="30" Text="73" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock FontSize="16" Text="Cư dân" Margin="10 0 0 10" Foreground="White"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <materialDesign:PackIcon Kind="AccountGroup" Width="80" Height="80" Foreground="White" Margin="0 10 0 10"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1" Background="#de901c">
+                    <TextBlock      
+                                                      Foreground="White"
+                                                      Margin="6"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                      Text="Xem danh sách" />
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Column="2" Width="auto" Height="130" Padding="0"
+                             Background="#337ca4"
+                              Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <StackPanel >
+                            <TextBlock FontSize="30" Text="09" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock FontSize="16" Text="Phương tiện" Margin="10 0 0 10" Foreground="White"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <materialDesign:PackIcon Kind="CarBack" Width="80" Height="80" Foreground="White" Margin="0 10 0 10"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1" Background="#2d7196">
+                    <TextBlock      
+                                                      Foreground="White"
+                                                      Margin="6"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"
+                                                      Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                                      Text="Xem danh sách" />
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+
+    </Grid>
+</Page>

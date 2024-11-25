@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="Assets\IconDictionary.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignColors" Version="3.1.1-ci795" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci795" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0-preview2.24304.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\IconDictionary.xaml" />
+  </ItemGroup>
+
+</Project>

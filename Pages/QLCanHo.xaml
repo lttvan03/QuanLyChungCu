@@ -1,0 +1,193 @@
+﻿<Page x:Class="QuanLyChungCu.Pages.QLCanHo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QuanLyChungCu.Pages"
+      mc:Ignorable="d" 
+      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+      Background="#c5c5c5"
+      FontSize="15"
+      
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="QLCanHo" Loaded="Page_Loaded">    
+    <Grid Margin="10 5 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>        
+        <!-- Header Section -->
+       
+        <Border Grid.Row="0" CornerRadius="10" Padding="5" Background="White">            
+            <Grid Height="46">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border CornerRadius="2" BorderThickness="2" BorderBrush="MediumPurple">
+                        <TextBox x:Name="txtTimKiem" materialDesign:HintAssist.Hint="Nhập thông tin sản phẩm" Width="280" FontSize="14"
+                                    Padding="6" Height="32"
+                                    VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+                    </Border>
+                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0"></Button>
+                </StackPanel>            
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" CornerRadius="10" Margin="0 10 0 5" Background="White">
+
+            <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="16 8 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Danh sách căn hộ" VerticalAlignment="Center" HorizontalAlignment="Left"
+                           FontSize="18" Margin="10 0 0 0"></TextBlock>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                    <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click"></Button>
+                    <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0" Click="btnSua_Click" ></Button>
+                    <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0"></Button>
+                </StackPanel>
+
+            </Grid>
+                <Border Grid.Row="1" CornerRadius="4" Margin="16 5 16 20" Background="White" BorderThickness="1" BorderBrush="Gray" Height="auto">
+                    <DataGrid x:Name="dtview" Grid.Row="1" Background="White" GridLinesVisibility="All"
+                              HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray"
+                              AlternatingRowBackground="#f5f5f5" Height="auto" VerticalAlignment="Top"
+                              IsReadOnly="True" AutoGenerateColumns="False" 
+                              SelectionChanged="dtview_SelectionChanged" Loaded="dtview_Loaded">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="LightGray"></Setter>
+                                <Setter Property="FontSize" Value="15"></Setter>
+                                <Setter Property="Padding" Value="5"></Setter>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                                <Setter Property="BorderThickness" Value="0,0,0.5,0.5"></Setter>
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                                <Setter Property="FontWeight" Value="Bold"></Setter>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã hoa" 
+                                        Binding="{Binding MaHoaTuoi}"
+                                        MinWidth="50"
+                                        MaxWidth="80"
+                                        Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tên hoa" 
+                                        Binding="{Binding TenHoaTuoi}"
+                                        MinWidth="100"
+                                        MaxWidth="150"
+                                        Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Ngày sản xuất" 
+                                        MinWidth="120"
+                                        MaxWidth="150"
+                                        Width="*"
+                                        Binding="{Binding NgaySX, StringFormat=dd/MM/yyyy}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Ngày hết hạn" 
+                                        MaxWidth="150"
+                                        MinWidth="120"
+                                        Width="*"
+                                        Binding="{Binding NgayHH, StringFormat=dd/MM/yyyy}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Đơn vị" 
+                                        MaxWidth="100"
+                                        MinWidth="80"
+                                        Width="*"
+                                        Binding="{Binding DonVi}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Đơn giá"
+                                        MaxWidth="100"
+                                        MinWidth="80"
+                                        Width="*"
+                                        Binding="{Binding DonGia, StringFormat=N0}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Ghi chú" 
+                                        MinWidth="100"
+                                        Width="*"
+                                        Binding="{Binding GhiChu}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Grid>
+        </Border>
+        <!-- IsOpen="True" -->
+        <Grid x:Name="overlayGrid" Width="auto" Height="auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Opacity="0.5" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Popup x:Name="popup" Placement="Center" HorizontalAlignment="Center" IsOpen="False" StaysOpen="True" VerticalAlignment="Center" Width="640" Height="360">
+            <Border CornerRadius="8" Background="White" Width="640" Height="360" Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Thông tin căn hộ" FontSize="18" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 0 0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10"
+                                  materialDesign:HintAssist.Hint="Mã hoa (bắt buộc)"
+                                  materialDesign:TextFieldAssist.HasClearButton="True"
+                                  Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}"
+                                  Suggestions="{Binding AutoSuggestBox2Suggestions}"
+                                  Text="{Binding AutoSuggestBox2Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  ValueMember="Key">
+                    </materialDesign:AutoSuggestBox>
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
+                          materialDesign:HintAssist.Hint="Tên hoa (bắt buộc)"
+                          materialDesign:TextFieldAssist.HasClearButton="True"
+                          Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}"
+                          Suggestions="{Binding AutoSuggestBox2Suggestions}"
+                          Text="{Binding AutoSuggestBox2Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          ValueMember="Key">
+                    </materialDesign:AutoSuggestBox>
+                    <DatePicker  Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
+                                 Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                 materialDesign:HintAssist.Hint="Ngày sản xuất (Bắt buộc)"
+                                 SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">                    
+                    </DatePicker>
+                    <DatePicker  Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
+                                 Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                 materialDesign:HintAssist.Hint="Ngày hết hạn (Bắt buộc)"
+                                 SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    </DatePicker>
+                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0" Margin="16 0 10 10"
+                                  materialDesign:HintAssist.Hint="Đơn vị"
+                                  materialDesign:TextFieldAssist.HasClearButton="True"
+                                  Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}"
+                                  Suggestions="{Binding AutoSuggestBox2Suggestions}"
+                                  Text="{Binding AutoSuggestBox2Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  ValueMember="Key">
+                    </materialDesign:AutoSuggestBox>
+                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="1" Margin="10 0 16 10"
+                          materialDesign:HintAssist.Hint="Đơn giá"
+                          materialDesign:TextFieldAssist.HasClearButton="True"
+                          Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}"
+                          Suggestions="{Binding AutoSuggestBox2Suggestions}"
+                          Text="{Binding AutoSuggestBox2Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          ValueMember="Key">
+                    </materialDesign:AutoSuggestBox>
+                    <materialDesign:AutoSuggestBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 16 10"
+                                  materialDesign:HintAssist.Hint="Ghi chú"
+                                  materialDesign:TextFieldAssist.HasClearButton="True"
+                                  Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}"
+                                  Suggestions="{Binding AutoSuggestBox2Suggestions}"
+                                  Text="{Binding AutoSuggestBox2Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  ValueMember="Key">
+                    </materialDesign:AutoSuggestBox>
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right">
+                        <Button x:Name="btnLuu"  Content="Lưu" Width="100"/>
+                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" Click="btnHuy_Click" />
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
+</Page>

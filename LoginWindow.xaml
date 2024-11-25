@@ -1,0 +1,36 @@
+﻿<Window x:Class="QuanLyChungCu.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyChungCu"
+        mc:Ignorable="d"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        WindowStartupLocation="CenterScreen"        
+        Title="Đăng nhập" Height="500" Width="450" Closed="Window_Closed">
+    <Grid VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="ĐĂNG NHẬP"
+                           HorizontalAlignment="Center" 
+                           FontSize="28" FontWeight="Bold"></TextBlock>
+                
+                <TextBox x:Name="txtUserName" Width="300"
+                         FontSize="15" Margin="0 50 0 0" Padding="15"
+                         materialDesign:HintAssist.Hint="Tên đăng nhập"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"></TextBox>
+                
+                <PasswordBox x:Name="txtPassword" Width="300" 
+                             FontSize="15" Margin="0 20 0 0" Padding="15"
+                             materialDesign:HintAssist.Hint="Mật khẩu"
+                             Style="{StaticResource MaterialDesignFilledPasswordBox}"></PasswordBox>
+
+            <Button x:Name="btnLogin" Content="ĐĂNG NHẬP"
+                        Height="56" Width="300" Margin="0 20 0 0"
+                        FontSize="15" Foreground="White"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Background="#515ec1"></Button>
+            </StackPanel>
+    </Grid>
+</Window>

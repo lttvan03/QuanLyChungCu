@@ -1,0 +1,26 @@
+﻿<Window x:Class="QuanLyChungCu.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLyChungCu"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:customcontrol="clr-namespace:QuanLyChungCu.CustomControl"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+                
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        Title="Quản lý chung cư" Height="700" Width="1080" Closed="Window_Closed" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="201*"></ColumnDefinition>
+            <ColumnDefinition Width="172*"/>
+            <ColumnDefinition Width="507*"/>
+        </Grid.ColumnDefinitions>
+        <!--Control-->
+        <customcontrol:MenuWithSubMenuControl x:Name="SubMenuControl" IsEnabled="True" HasIcon="True" SubMenuPadding="15,0,0,0"/>
+
+        <Frame x:Name="MainWindowFrame" Grid.Column="1" NavigationUIVisibility="Hidden" Grid.ColumnSpan="3"></Frame>
+    </Grid>
+</Window>
