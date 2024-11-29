@@ -12,7 +12,7 @@ namespace QuanLyChungCu.ConnectDatabase
 {
     class Connect
     {
-        private static string sConnect = @"Data Source=LTTVAN; Initial Catalog=QLHoaTuoi;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False";
+        private static string sConnect = @"Data Source=LTTVAN; Initial Catalog=QLChungCu;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False";
         private static SqlConnection con = null;
 
         public Connect() {
@@ -47,24 +47,24 @@ namespace QuanLyChungCu.ConnectDatabase
         }
 
         ///// <summary>
-        ///// Lưu dữ liệu xuồn Database
+        ///// Lưu dữ liệu xuống Database
         ///// </summary>
         ///// <param name="sSQL">Là câu lệnh SQL là câu lệnh Insert, Update, Dalete></param>
         ///// <returns></returns>
-        //public static int DataExecution(string sSQL) { 
-        //    int iResult = 0;
-        //    OpenConnect();
-        //    if (con.State == ConnectionState.Closed) {
-        //        con.Open();
-        //    }
+        public static int DataExecution1(string sSQL) {
+            int iResult = 0;
+            OpenConnect();
+            if (con.State == ConnectionState.Closed) {
+                con.Open();
+            }
 
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.Connection = con;
-        //    cmd.CommandType = CommandType.Text;
-        //    cmd.CommandText = sSQL;
-        //    iResult = cmd.ExecuteNonQuery();
-        //    return iResult;
-        //}
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = sSQL;
+            iResult = cmd.ExecuteNonQuery();
+            return iResult;
+        }
 
         /// <summary>
         /// Lưu dữ liệu xuống Database (Insert, Update, Delete) với tham số

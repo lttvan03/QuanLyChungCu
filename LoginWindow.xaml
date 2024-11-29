@@ -30,7 +30,7 @@
                         Height="56" Width="300" Margin="0 20 0 0"
                         FontSize="15" Foreground="White"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
-                        Background="#515ec1"></Button>
+                        Background="#515ec1" Click="btnLogin_Click"></Button>
             </StackPanel>
     </Grid>
 </Window>

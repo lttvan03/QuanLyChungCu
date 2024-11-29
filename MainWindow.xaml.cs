@@ -18,6 +18,7 @@ namespace QuanLyChungCu
     public partial class MainWindow : Window
     {
         public bool isExit = true;
+        public event EventHandler Logout;
         public MainWindow() {
             InitializeComponent();
         }
