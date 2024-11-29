@@ -12,7 +12,11 @@ namespace QuanLyChungCu.ConnectDatabase
 {
     class Connect
     {
+<<<<<<< Updated upstream
         private static string sConnect = @"Data Source=LTTVAN; Initial Catalog=QLHoaTuoi;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False";
+=======
+        private static string sConnect = @"Data Source=QUỐCANH;Initial Catalog=QLChungCu;User ID=sa;Password=123;Encrypt=False;TrustServerCertificate=False";
+>>>>>>> Stashed changes
         private static SqlConnection con = null;
 
         public Connect() {
@@ -51,12 +55,23 @@ namespace QuanLyChungCu.ConnectDatabase
         ///// </summary>
         ///// <param name="sSQL">Là câu lệnh SQL là câu lệnh Insert, Update, Dalete></param>
         ///// <returns></returns>
+<<<<<<< Updated upstream
         //public static int DataExecution(string sSQL) { 
         //    int iResult = 0;
         //    OpenConnect();
         //    if (con.State == ConnectionState.Closed) {
         //        con.Open();
         //    }
+=======
+        public static int DataExecution1(string sSQL)
+        {
+            int iResult = 0;
+            OpenConnect();
+            if (con.State == ConnectionState.Closed)
+            {
+                con.Open();
+            }
+>>>>>>> Stashed changes
 
         //    SqlCommand cmd = new SqlCommand();
         //    cmd.Connection = con;

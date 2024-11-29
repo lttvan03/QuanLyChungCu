@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace QuanLyChungCu.Pages
 {
     /// <summary>
-    /// Interaction logic for KVThuongMai.xaml
+    /// Interaction logic for HDCuDan.xaml
     /// </summary>
-    public partial class KVThuongMai : Page
+    public partial class HDCuDan : Page
     {
-        public KVThuongMai()
+        public HDCuDan()
         {
             InitializeComponent();
         }

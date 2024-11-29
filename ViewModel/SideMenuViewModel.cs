@@ -35,7 +35,7 @@ namespace QuanLyChungCu.ViewModel
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_dashboard"], MenuText = "Trang chủ", NavigateToPage = "Dashboard" , SubMenuList = null},
 
                     //MainMenu Button
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "KVDanCu",
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "QLCanHo",
 
                         //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
@@ -45,9 +45,14 @@ namespace QuanLyChungCu.ViewModel
                     //MainMenu Button
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực thương mại", NavigateToPage = "KVThuongMai", SubMenuList = null },
 
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "QLTaiChinh", SubMenuList = null },
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "HDThuongMai",
+                        SubMenuList = new List<SubMenuItemsData> {
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_car"], SubMenuText = "Hóa đơn thương mại", NavigateToPage = "HDThuongMai"},
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_bike"], SubMenuText = "Hóa đơn cư dân", NavigateToPage = "HDCuDan"} }
 
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLPhuongTien", 
+                    },
+
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLoto", 
                     //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
                             new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_car"], SubMenuText = "Xe ô tô", NavigateToPage = "QLoto"},
