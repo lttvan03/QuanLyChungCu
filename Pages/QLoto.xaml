@@ -96,8 +96,8 @@
             </Grid>
         </Border>
         <!-- IsOpen="True" -->
-        <Grid x:Name="overlayGrid" Width="auto" Height="auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Opacity="0.5" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Popup x:Name="popup" Placement="Center" HorizontalAlignment="Center" IsOpen="False" StaysOpen="True" VerticalAlignment="Center" Width="640" Height="auto">
+        <Grid x:Name="overlayGrid" Panel.ZIndex="1" Width="auto" Height="auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Opacity="0.5" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Popup x:Name="popup" Panel.ZIndex="1" Placement="Center" HorizontalAlignment="Center" IsOpen="False" StaysOpen="True" VerticalAlignment="Center" Width="640" Height="auto">
             <Border CornerRadius="8" Background="White" Width="640" Height="auto" Padding="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -153,8 +153,9 @@
                     </materialDesign:AutoSuggestBox>
                     <ComboBox Grid.Row="4" Grid.Column="0" Margin="16 0 10 10"
                               x:Name="comboboxQuanLy"
+                              DisplayMemberPath="IDCuDan"
+                              SelectedValuePath="IDCuDan"
                               materialDesign:HintAssist.Hint="ID Người quản lý (Bắt buộc)"
-                              materialDesign:TextFieldAssist.HasClearButton="True"
                               Style="{StaticResource MaterialDesignOutlinedComboBox}"
                               SelectionChanged="comboboxQuanLy_SelectionChanged">
                     </ComboBox>

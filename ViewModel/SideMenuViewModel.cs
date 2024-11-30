@@ -47,7 +47,7 @@ namespace QuanLyChungCu.ViewModel
 
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "QLTaiChinh", SubMenuList = null },
 
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLPhuongTien", 
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLoto", 
                     //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
                             new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_car"], SubMenuText = "Xe ô tô", NavigateToPage = "QLoto"},
@@ -58,6 +58,7 @@ namespace QuanLyChungCu.ViewModel
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_users"], MenuText = "Tài khoản", NavigateToPage = "QLTaiKhoan",  
                         //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_users"], SubMenuText = "Tất cả tài khoản", NavigateToPage = "QLTaiKhoan"},
                             new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_users"], SubMenuText = "Thông tin tài khoản", NavigateToPage = "Profile"} }
                     },
 
