@@ -183,9 +183,9 @@ GO
 
 INSERT INTO XeOTo (BienSoXe, LoaiXe, MauXe, IDCuDan, IDNguoiQuanLy)
 VALUES 
-(N'29A-12345', N'Toyota Camry', N'Đen', 'Cudan03', 'quanly01'),
-(N'30B-67890', N'Honda CR-V', N'Trắng', 'Cudan01', 'quanly01'),
-(N'31C-54321', N'Ford Ranger', N'Xanh', 'Cudan02', 'quanly02');
+(N'29A-12345', N'Toyota Camry', N'Đen', 'cudan03', 'quanly01'),
+(N'30B-67890', N'Honda CR-V', N'Trắng', 'cudan01', 'quanly01'),
+(N'31C-54321', N'Ford Ranger', N'Xanh', 'cudan02', 'quanly02');
 GO
 
 CREATE TABLE XeMay (
@@ -202,9 +202,9 @@ GO
 
 INSERT INTO XeMay (BienSoXe, LoaiXe, MauXe, IDCuDan, IDNguoiQuanLy)
 VALUES 
-(N'29AB-12345', N'Yamaha Sirius', N'Xanh', 'Cudan01', 'quanly01'),
-(N'30BC-67890', N'Honda Air Blade', N'Đỏ', 'Cudan02', 'quanly01'),
-(N'31CD-54321', N'Honda Vision', N'Đen', 'Cudan02', 'quanly02');
+(N'29AB-12345', N'Yamaha Sirius', N'Xanh', 'cudan01', 'quanly01'),
+(N'30BC-67890', N'Honda Air Blade', N'Đỏ', 'cudan02', 'quanly01'),
+(N'31CD-54321', N'Honda Vision', N'Đen', 'cudan02', 'quanly02');
 GO
 
 
@@ -221,7 +221,7 @@ GO
 
 INSERT INTO XeDap (LoaiXe, MauXe, IDCuDan, IDNguoiQuanLy)
 VALUES 
-(N'Xe đạp thể thao', N'Đen', 'Cudan01', 'quanly01'),
-(N'Xe đạp thường', N'Xanh', 'Cudan01', 'quanly01'),
-(N'Xe đạp gấp', N'Bạc', 'Cudan02', 'quanly02');
+(N'Xe đạp thể thao', N'Đen', 'cudan01', 'quanly01'),
+(N'Xe đạp thường', N'Xanh', 'cudan01', 'quanly01'),
+(N'Xe đạp gấp', N'Bạc', 'cudan02', 'quanly02');
 GO
