@@ -63,12 +63,6 @@ namespace QuanLyChungCu.Pages
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            this.Cursor = Cursors.Wait;
-            LoadDataGrid();
-            this.Cursor = Cursors.Arrow;
-        }
-
         private void LoadDataGrid() {
             dGrid = Connect.DataTransport("SELECT * FROM XeOTo INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy");
 

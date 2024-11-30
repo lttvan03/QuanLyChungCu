@@ -9,6 +9,6 @@
       Title="QLXeDap">
 
     <Grid>
-        <TextBlock FontSize="30" Text="Quản lý xe đạp" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        
     </Grid>
 </Page>
