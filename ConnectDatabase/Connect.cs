@@ -25,7 +25,7 @@ namespace QuanLyChungCu.ConnectDatabase
                 con.Open();
             }
             catch (SqlException ex) {
-                MessageBox.Show($"Không thể kết nối đến cơ sở dữ liệu.\nChi tiết lỗi: {ex.Message}", "Lỗi kết nối", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Không thể kết nối đến cơ sở dữ liệu. Chi tiết lỗi: {ex.Message}", "Lỗi kết nối", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             if (con.State == System.Data.ConnectionState.Open) {
                 con.Close();

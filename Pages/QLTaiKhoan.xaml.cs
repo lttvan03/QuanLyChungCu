@@ -1,4 +1,5 @@
-﻿using QuanLyChungCu.ConnectDatabase;
+﻿using MaterialDesignThemes.Wpf;
+using QuanLyChungCu.ConnectDatabase;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -59,22 +60,36 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    txtNgaySinh.Visibility = Visibility.Visible;
+                    txtSDT.Visibility = Visibility.Visible;
 
                     txtIDTaiKhoan.Text = "";
                     txtTenNguoiDung.Text = "";
-                    txtMatKhau.Text = "";
-                    comboboxQuyen.Text = "";
+                    txtMatKhau.Text = "123456";
+                    comboboxQuyen.Text = "Quản lý";
+
+                    comboboxQuyen.IsEnabled = false;
+                    txtIDTaiKhoan.IsReadOnly = false;
+                    txtTenNguoiDung.IsReadOnly = false;
 
                     break;
                 case TrangThaiHienTai.Sua:
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    txtNgaySinh.Visibility = Visibility.Collapsed;
+                    txtSDT.Visibility = Visibility.Collapsed;
 
                     txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
                     txtMatKhau.Text = row["MatKhau"].ToString();
                     txtTenNguoiDung.Text = row["TenNguoiDung"].ToString();
                     comboboxQuyen.SelectedValue = row["QuyenHan"].ToString();
+
+                    txtIDTaiKhoan.IsReadOnly = true;
+                    comboboxQuyen.IsEnabled = true;
+                    txtTenNguoiDung.IsReadOnly = true;
+                    comboboxQuyen.IsReadOnly = false;
+
                     break;
             }
         }
@@ -82,19 +97,19 @@ namespace QuanLyChungCu.Pages
             if (!string.IsNullOrEmpty(txtTimKiem.Text)) {
                 string searchText = txtTimKiem.Text.ToLower().Trim();
 
-                string sSQL = $"SELECT * FROM TaiKhoan " +
-                    $"LEFT JOIN CuDan ON TaiKhoan.IDCuDan = CuDan.IDCuDan " +
-                    $"LEFT JOIN NguoiQuanLy ON TaiKhoan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
-                    $"LEFT JOIN Admin ON TaiKhoan.IDAdmin = Admin.IDAdmin" +
-                    $"WHERE LOWER(IDTaiKhoan) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(MatKhau) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(QuyenHan) LIKE LOWER(N'%{searchText}%') " +
+                string sSQL = $"SELECT CONCAT(CuDan.TenCuDan, ' ', NguoiQuanLy.TenNguoiQuanLy, ' ', Admin.TenAdmin) AS TenNguoiDung, *  " +
+                    $"FROM TaiKhoan  LEFT JOIN CuDan ON TaiKhoan.IDCuDan = CuDan.IDCuDan  " +
+                    $"LEFT JOIN NguoiQuanLy ON TaiKhoan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy  " +
+                    $"LEFT JOIN Admin ON TaiKhoan.IDAdmin = Admin.IDAdmin " +
+                    $"WHERE LOWER(IDTaiKhoan) LIKE LOWER(N'%{searchText}%')  " +
+                    $"OR LOWER(MatKhau) LIKE LOWER(N'%{searchText}%')  " +
+                    $"OR LOWER(QuyenHan) LIKE LOWER(N'%{searchText}%')  " +
                     $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') " +
-                    $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
-                    $"OR LOWER(Admin.TenAdmin) LIKE LOWER(N'%{searchText}%')" +
-                    $"OR LOWER(TaiKhoan.IDCuDan) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(TaiKhoan.IDNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(TaiKhoan.IDAdmin) LIKE LOWER('%{searchText}%')";
+                    $" OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                    $" OR LOWER(Admin.TenAdmin) LIKE LOWER(N'%{searchText}%')  " +
+                    $"OR LOWER(TaiKhoan.IDCuDan) LIKE LOWER(N'%{searchText}%')  " +
+                    $"OR LOWER(TaiKhoan.IDNguoiQuanLy) LIKE LOWER(N'%{searchText}%')  " +
+                    $"OR LOWER(TaiKhoan.IDAdmin) LIKE LOWER(N'%{searchText}%');";
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;
@@ -115,22 +130,23 @@ namespace QuanLyChungCu.Pages
         }
         private void comboboxQuyen_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (comboboxQuyen.SelectedItem != null) {
-                // Lấy ID của mục được chọn
-                string selectedID = ((DataRowView)comboboxQuyen.SelectedItem)["IDTaiKhoan"].ToString();
+                string selected = ((DataRowView)comboboxQuyen.SelectedItem)["QuyenHan"].ToString();
 
-                // Lấy tên tương ứng từ cơ sở dữ liệu (hoặc đã tải sẵn)
-                DataTable dt_qh = Connect.DataTransport($"SELECT QuyenHan FROM TaiKhoan WHERE IDTaiKhoan = '{selectedID}'");
+                DataTable dt_qh = Connect.DataTransport($"SELECT QuyenHan FROM TaiKhoan WHERE QuyenHan = '{selected}'");
+                if (dt_qh.Rows.Count > 0) {
+                    comboboxQuyen.SelectedValue = dt_qh.Rows[0]["QuyenHan"].ToString();
+                }
             }
         }
         private void LoadComboBoxQuyen() {
             // Lấy danh sách ID 
-            DataTable dt_qh = Connect.DataTransport("SELECT DISTINCT IDTaiKhoan FROM TaiKhoan");
+            DataTable dt_qh = Connect.DataTransport("SELECT DISTINCT QuyenHan FROM TaiKhoan");
 
             if (dt_qh.Rows.Count > 0) {
                 // Gán dữ liệu vào ComboBox
                 comboboxQuyen.ItemsSource = dt_qh.DefaultView;
                 comboboxQuyen.DisplayMemberPath = "QuyenHan"; // Tên cột hiển thị
-                comboboxQuyen.SelectedValuePath = "IDTaiKhoan"; // Giá trị được chọn
+                comboboxQuyen.SelectedValuePath = "QuyenHan"; // Giá trị được chọn
             }
             else {
                 MessageBox.Show("Không có dữ liệu quyền!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -144,10 +160,31 @@ namespace QuanLyChungCu.Pages
             popup.IsOpen = false; // Tạm thời ẩn Popup
             overlayGrid.Visibility = Visibility.Collapsed;
 
-            if (txtMatKhau.Text.Trim() == "") {
-                MessageBox.Show("Bạn chưa nhập mật khẩu.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            if (txtIDTaiKhoan.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập ID.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtMatKhau.Focus();
                 popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtTenNguoiDung.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập tên người dùng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuyen.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtNgaySinh.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa chọn ngày sinh.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuyen.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtSDT.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập số điện thoại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuyen.Focus();
+                popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
@@ -162,25 +199,27 @@ namespace QuanLyChungCu.Pages
                 return true;
             }
         }
-        private void btnLuu_Click(object sender, RoutedEventArgs e) {
-            if (!AllowSave()) {
-                popup.IsOpen = true; // Hiển thị lại Popup nếu cần
-                overlayGrid.Visibility = Visibility.Visible;
-                overlayGrid.Opacity = 0.5;
-                return;
-            }
+        private void btnLuu_Click(object sender, RoutedEventArgs e) {            
             string sSQL = "";
             switch (_trangThaiHienTai) {
                 case TrangThaiHienTai.Sua:
-                    sSQL = "";
+                    sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhau.Text}' WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();
                     MessageBox.Show("Chỉnh sửa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 case TrangThaiHienTai.Them:
-                    sSQL = $"INSERT INTO TaiKhoan(MatKhau, QuyenHan) VALUES('{txtMatKhau.Text}'," +
-                        $" '{((DataRowView)comboboxQuyen.SelectedItem)["QuyenHan"]}'";
+                    if (!AllowSave()) {
+                        popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                        overlayGrid.Visibility = Visibility.Visible;
+                        overlayGrid.Opacity = 0.5;
+                        return;
+                    }
+                    DateTime ngaySinh = txtNgaySinh.SelectedDate.Value;
+                    string formattedDate = ngaySinh.ToString("yyyy-MM-dd");
+                    sSQL = $"INSERT INTO NguoiQuanLy (IDNguoiQuanLy, TenNguoiQuanLy, NgaySinh, SDTNguoiQuanLy) " +
+                        $"VALUES ('{txtIDTaiKhoan.Text}', N'{txtTenNguoiDung.Text}', '{formattedDate}', '{txtSDT.Text}')";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();
@@ -213,7 +252,7 @@ namespace QuanLyChungCu.Pages
                     string id = selectedRow["IDTaiKhoan"].ToString();
                     if (MessageBox.Show("Bạn có muốn xóa tài khoản có ID là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
-                        sSQL = $"DELETE FROM TaiKhoan WHERE IDTaiKhoan = {txtIDTaiKhoan.Text}";
+                        sSQL = $"DELETE FROM TaiKhoan WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
                         // Thực thi câu lệnh xóa
                         int result = Connect.DataExecution1(sSQL);
                         if (result == 1) {

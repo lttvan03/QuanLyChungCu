@@ -51,7 +51,7 @@
                     <TextBlock Grid.Column="0" Text="Danh sách tài khoản" VerticalAlignment="Center" HorizontalAlignment="Left"
                            FontSize="18" Margin="10 0 0 0"></TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click" Visibility="Collapsed"></Button>
+                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click"></Button>
                         <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0" Click="btnSua_Click" ></Button>
                         <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0" Click="btnXoa_Click"></Button>
                     </StackPanel>
@@ -108,14 +108,24 @@
                     <TextBlock Text="Thông tin tài khoản" FontSize="18" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 8 0 0"
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 16 10"
-                                                   x:Name="txtIDTaiKhoan" 
-                                                   materialDesign:HintAssist.Hint="ID Tài khoản (Mặc định)" 
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10"
+                                                   x:Name="txtIDTaiKhoan"
+                                                   materialDesign:HintAssist.Hint="ID Tài khoản" 
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0"  Margin="10 0 16 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10 0 16 10"
                                                    x:Name="txtTenNguoiDung"
                                                    materialDesign:HintAssist.Hint="Tên người dùng"
+                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
+                    </materialDesign:AutoSuggestBox>
+                    <DatePicker  Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
+                                 Width="auto" Height="auto" Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                 materialDesign:HintAssist.Hint="Ngày sinh"
+                                 x:Name="txtNgaySinh" BorderThickness="1">                        
+                    </DatePicker>
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10 0 16 10"
+                                                   x:Name="txtSDT"
+                                                   materialDesign:HintAssist.Hint="Số điện thoại"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 10 10"
