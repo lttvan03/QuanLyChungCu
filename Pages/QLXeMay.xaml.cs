@@ -247,8 +247,13 @@ namespace QuanLyChungCu.Pages
         }
 
         private void btnSua_Click(object sender, RoutedEventArgs e) {
-            _trangThaiHienTai = TrangThaiHienTai.Sua;
-            LoadStatus();
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.Sua;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void btnThem_Click(object sender, RoutedEventArgs e) {

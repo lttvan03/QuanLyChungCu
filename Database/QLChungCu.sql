@@ -9,32 +9,42 @@ GO
 USE QLChungCu
 GO
 
--- Tạo bảng NguoiQuanLy
+
 CREATE TABLE NguoiQuanLy(
 	IDNguoiQuanLy VARCHAR(30) PRIMARY KEY NOT NULL,
 	TenNguoiQuanLy NVARCHAR(100) NOT NULL,
 	NgaySinh DATE,
-	SoGiayTo VARCHAR(20),
-	SDTNguoiQuanLy VARCHAR(12)
-)
+	SDTNguoiQuanLy VARCHAR(12))
 GO
 
--- Tạo bảng Admin
 CREATE TABLE Admin(
 	IDAdmin VARCHAR(30) PRIMARY KEY NOT NULL,
 	TenAdmin NVARCHAR(200) NOT NULL
 )
 GO
 
--- Tạo bảng TaiKhoan
+CREATE TABLE CuDan (
+	IDCuDan VARCHAR(30) PRIMARY KEY NOT NULL, 
+	TenCuDan NVARCHAR(200) NOT NULL,
+	NgaySinh DATE,
+	GioiTinh NVARCHAR(10),
+	GiayToTuyThan VARCHAR(50) NOT NULL,
+	SoCanHo VARCHAR(40) NOT NULL,
+	IDNguoiQuanLy VARCHAR(30) NOT NULL,
+    FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy)
+);
+GO
+
 CREATE TABLE TaiKhoan (
     IDTaiKhoan VARCHAR(30) PRIMARY KEY NOT NULL,
     MatKhau VARCHAR(50) NOT NULL,
     QuyenHan NVARCHAR(50) NOT NULL,
     IDNguoiQuanLy VARCHAR(30),
     IDAdmin VARCHAR(30),
+    IDCuDan VARCHAR(30),
     CONSTRAINT FK_TaiKhoan_NguoiQuanLy FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy),
-    CONSTRAINT FK_TaiKhoan_Admin FOREIGN KEY (IDAdmin) REFERENCES Admin(IDAdmin)
+    CONSTRAINT FK_TaiKhoan_Admin FOREIGN KEY (IDAdmin) REFERENCES Admin(IDAdmin),
+    CONSTRAINT FK_TaiKhoan_CuDan FOREIGN KEY (IDCuDan) REFERENCES CuDan(IDCuDan)
 );
 GO
 
@@ -43,7 +53,6 @@ ON NguoiQuanLy
 AFTER INSERT
 AS
 BEGIN
-    -- Thêm tài khoản vào bảng TaiKhoan nếu chưa có
     INSERT INTO TaiKhoan (IDTaiKhoan, MatKhau, QuyenHan, IDNguoiQuanLy)
     SELECT 
         IDNguoiQuanLy,
@@ -54,6 +63,7 @@ BEGIN
     WHERE NOT EXISTS (SELECT 1 FROM TaiKhoan WHERE IDTaiKhoan = INSERTED.IDNguoiQuanLy);
 END;
 GO
+
 INSERT INTO NguoiQuanLy (IDNguoiQuanLy, TenNguoiQuanLy, NgaySinh, SDTNguoiQuanLy)
 VALUES 
 ('quanly01', N'Lê Thị B', '1990-11-25', '0912345678'),
@@ -79,6 +89,29 @@ GO
 INSERT INTO Admin (IDAdmin, TenAdmin)
 VALUES 
 ('admin01', N'Nguyễn Văn A')
+GO
+
+CREATE TRIGGER trg_AfterInsertCuDan
+ON CuDan
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO TaiKhoan (IDTaiKhoan, MatKhau, QuyenHan, IDCuDan)
+    SELECT 
+        IDCuDan,
+        '123456',
+        N'Cư dân',
+        IDCuDan
+    FROM INSERTED
+    WHERE NOT EXISTS (SELECT 1 FROM TaiKhoan WHERE IDTaiKhoan = INSERTED.IDCuDan);
+END;
+GO
+
+INSERT INTO CuDan (IDCuDan, TenCuDan, NgaySinh, GioiTinh, GiayToTuyThan, SoCanHo, IDNguoiQuanLy)
+VALUES 
+('cudan01', N'Phạm Văn C', '1990-05-12', N'Nam', '123456789', 'A101', 'quanly01'),
+('cudan02', N'Nguyễn Thị E', '1985-07-22', N'Nữ', '987654321', 'B202', 'quanly01'),
+('cudan03', N'Lê Thị F', '1995-09-15', N'Nữ', '456789123', 'C303', 'quanly02');
 GO
 
 CREATE TABLE MatBangThuongMai(
@@ -146,25 +179,6 @@ VALUES
 ('A101', '1', 'quanly01'),
 ('B202', '2', 'quanly01'),
 ('C303', '3','quanly02');
-GO
-
-CREATE TABLE CuDan (
-	IDCuDan VARCHAR(30) PRIMARY KEY NOT NULL, 
-	TenCuDan NVARCHAR(200) NOT NULL,
-	NgaySinh DATE,
-	GioiTinh NVARCHAR(10),
-	GiayToTuyThan VARCHAR(50) NOT NULL,
-	SoCanHo VARCHAR(40) NOT NULL,
-	IDNguoiQuanLy VARCHAR(30) NOT NULL,
-    FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy)
-)
-GO
-
-INSERT INTO CuDan (IDCuDan, TenCuDan, NgaySinh, GioiTinh, GiayToTuyThan, SoCanHo, IDNguoiQuanLy)
-VALUES 
-('cudan01', N'Phạm Văn C', '1990-05-12', N'Nam', '123456789', 'A101', 'quanly01'),
-('cudan02', N'Nguyễn Thị E', '1985-07-22', N'Nữ', '987654321', 'B202', 'quanly01'),
-('cudan03', N'Lê Thị F', '1995-09-15', N'Nữ', '456789123', 'C303', 'quanly02');
 GO
 
 CREATE TABLE CuDan_CanHo (
