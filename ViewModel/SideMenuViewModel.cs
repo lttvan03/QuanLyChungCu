@@ -35,17 +35,22 @@ namespace QuanLyChungCu.ViewModel
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_dashboard"], MenuText = "Trang chủ", NavigateToPage = "Dashboard" , SubMenuList = null},
 
                     //MainMenu Button
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "KVDanCu",
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "QLCuDan",
 
                         //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_building"], SubMenuText = "Căn hộ", NavigateToPage = "QLCanHo"},
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cudan"], SubMenuText = "Cư dân", NavigateToPage = "QLCuDan"} } },
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cudan"], SubMenuText = "Cư dân", NavigateToPage = "QLCuDan"},
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_building"], SubMenuText = "Căn hộ", NavigateToPage = "QLCanHo"} } },
 
                     //MainMenu Button
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực thương mại", NavigateToPage = "KVThuongMai", SubMenuList = null },
 
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "QLTaiChinh", SubMenuList = null },
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "HDCuDan", 
+                    //Submenu button
+                        SubMenuList = new List<SubMenuItemsData> {
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cashcudan"], SubMenuText = "Hóa đơn cư dân", NavigateToPage = "HDCuDan"},
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cash"], SubMenuText = "Hóa đơn thương mại", NavigateToPage = "HDThuongMai" } }
+                    },
 
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLoto", 
                     //Submenu button
