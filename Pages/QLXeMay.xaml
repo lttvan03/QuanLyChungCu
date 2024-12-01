@@ -121,7 +121,7 @@
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                     <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10" IsReadOnly="True"
                                                    x:Name="txtIDXeMay" 
-                                                   materialDesign:HintAssist.Hint="ID xe máy"
+                                                   materialDesign:HintAssist.Hint="ID xe máy (Mặc định)"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
@@ -132,7 +132,7 @@
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtLoaiXe"
-                                                   materialDesign:HintAssist.Hint="Loại xe"
+                                                   materialDesign:HintAssist.Hint="Loại xe (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>

@@ -28,7 +28,7 @@
                                     Padding="6" Height="32"
                                     VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
                     </Border>
-                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0"></Button>
+                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0" Click="btnTimKiem_Click" ></Button>
                 </StackPanel>
             </Grid>
         </Border>
@@ -60,7 +60,7 @@
                 <Border Grid.Row="1" CornerRadius="4" Margin="10 5 16 20" Background="#c5c5c5" Height="auto" Grid.ColumnSpan="2">
                     <DataGrid x:Name="dtview" Background="White"
                               IsReadOnly="True" AutoGenerateColumns="False" 
-                              SelectionChanged="dtview_SelectionChanged" Loaded="dtview_Loaded">
+                              SelectionChanged="dtview_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" 
                                         Binding="{Binding IDXeOTo}"
@@ -121,7 +121,7 @@
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
                     <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10" IsReadOnly="True"
                                                    x:Name="txtIDoto" 
-                                                   materialDesign:HintAssist.Hint="ID ô tô"
+                                                   materialDesign:HintAssist.Hint="ID ô tô (Mặc định)"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
@@ -132,7 +132,7 @@
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtLoaiXe"
-                                                   materialDesign:HintAssist.Hint="Loại xe"
+                                                   materialDesign:HintAssist.Hint="Loại xe (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>

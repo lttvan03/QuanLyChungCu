@@ -87,14 +87,16 @@ namespace QuanLyChungCu.Pages
         }
         private void btnTimKiem_Click(object sender, RoutedEventArgs e) {
             if(!string.IsNullOrEmpty(txtTimKiem.Text)) {
+                string searchText = txtTimKiem.Text.ToLower().Trim();
+
                 string sSQL = $"SELECT * FROM XeMay " +
                     $"INNER JOIN CuDan ON XeMay.IDCuDan = CuDan.IDCuDan " +
                     $"INNER JOIN NguoiQuanLy ON XeMay.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
-                    $"WHERE LOWER(BienSoXe) LIKE LOWER('%{txtTimKiem.Text}%') OR LOWER(IDXeMay) LIKE LOWER('%{txtTimKiem.Text}%') " +
-                    $"OR LOWER(LoaiXe) LIKE LOWER('%{txtTimKiem.Text}%') OR LOWER(MauXe) LIKE LOWER('%{txtTimKiem.Text}%') " +
-                    $"OR LOWER(CuDan.TenCuDan) LIKE LOWER('%{txtTimKiem.Text}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER('%{txtTimKiem.Text}%') " +
-                    $"OR LOWER(XeMay.IDCuDan) LIKE LOWER('%{txtTimKiem.Text}%') " +
-                    $"OR LOWER(XeMay.IDNguoiQuanLy) LIKE LOWER('%{txtTimKiem.Text}%')";
+                    $"WHERE LOWER(BienSoXe) LIKE LOWER('%{searchText}%') OR LOWER(IDXeMay) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(LoaiXe) LIKE LOWER(N'%{searchText}%') OR LOWER(MauXe) LIKE LOWER(N'%{searchText}%') " +
+                    $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                    $"OR LOWER(XeMay.IDCuDan) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(XeMay.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;
@@ -225,7 +227,7 @@ namespace QuanLyChungCu.Pages
             string sSQL = "";
             switch(_trangThaiHienTai) {
                 case TrangThaiHienTai.Sua:
-                    sSQL = $"UPDATE XeMay SET BienSoXe = '{txtBienSoXe.Text}', LoaiXe = '{txtLoaiXe.Text}', MauXe = '{txtMauXe.Text}', " +
+                    sSQL = $"UPDATE XeMay SET BienSoXe = N'{txtBienSoXe.Text}', LoaiXe = N'{txtLoaiXe.Text}', MauXe = N'{txtMauXe.Text}', " +
                         $"IDCuDan = '{((DataRowView)comboboxCuDan.SelectedItem)["IDCuDan"]}'," +
                         $" IDNguoiQuanLy = '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}'" +
                         $" WHERE IDXeMay = {txtIDXeMay.Text}";
@@ -281,10 +283,10 @@ namespace QuanLyChungCu.Pages
                         }
                     }
                 }
-                else {
-                    // Hiển thị thông báo khi không có gì được chọn
-                    MessageBox.Show("Vui lòng chọn thông tin cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+            }
+            else {
+                // Hiển thị thông báo khi không có gì được chọn
+                MessageBox.Show("Vui lòng chọn thông tin cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
