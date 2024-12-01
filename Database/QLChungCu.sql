@@ -1,50 +1,84 @@
-﻿CREATE DATABASE QLChungCu
+﻿USE master;
+ALTER DATABASE QLChungCu SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE QLChungCu;
+GO
+
+CREATE DATABASE QLChungCu
 GO
 
 USE QLChungCu
 GO
 
-CREATE TABLE TaiKhoan(
-	IDTaiKhoan VARCHAR(30) PRIMARY KEY NOT NULL,
-	MatKhau VARCHAR(50) NOT NULL,
-	QuyenHan NVARCHAR(50) NOT NULL
-)
-GO
-INSERT INTO TaiKhoan (IDTaiKhoan, MatKhau, QuyenHan)
-VALUES 
-('admin01', '123456', N'Admin'),
-('quanly01', '123456', N'Quản lý'),
-('quanly02', '123456', N'Quản lý'),
-('cudan01', '123456', N'Cư dân'),
-('cudan02', '123456', N'Cư dân'),
-('cudan03', '123456', N'Cư dân');
-GO
-
-CREATE TABLE Admin(
-	IDAdmin VARCHAR(30) PRIMARY KEY NOT NULL,
-	TenAdmin NVARCHAR(200) NOT NULL,
-	FOREIGN KEY (IDAdmin) REFERENCES TaiKhoan(IDTaiKhoan)
-)
-GO
-
-INSERT INTO Admin (IDAdmin, TenAdmin)
-VALUES 
-('admin01', N'Nguyễn Văn A');
-GO
-
+-- Tạo bảng NguoiQuanLy
 CREATE TABLE NguoiQuanLy(
 	IDNguoiQuanLy VARCHAR(30) PRIMARY KEY NOT NULL,
 	TenNguoiQuanLy NVARCHAR(100) NOT NULL,
 	NgaySinh DATE,
-	SDTNguoiQuanLy VARCHAR(12),
-	FOREIGN KEY (IDNguoiQuanLy) REFERENCES TaiKhoan(IDTaiKhoan)
+	SoGiayTo VARCHAR(20),
+	SDTNguoiQuanLy VARCHAR(12)
 )
 GO
 
+-- Tạo bảng Admin
+CREATE TABLE Admin(
+	IDAdmin VARCHAR(30) PRIMARY KEY NOT NULL,
+	TenAdmin NVARCHAR(200) NOT NULL
+)
+GO
+
+-- Tạo bảng TaiKhoan
+CREATE TABLE TaiKhoan (
+    IDTaiKhoan VARCHAR(30) PRIMARY KEY NOT NULL,
+    MatKhau VARCHAR(50) NOT NULL,
+    QuyenHan NVARCHAR(50) NOT NULL,
+    IDNguoiQuanLy VARCHAR(30),
+    IDAdmin VARCHAR(30),
+    CONSTRAINT FK_TaiKhoan_NguoiQuanLy FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy),
+    CONSTRAINT FK_TaiKhoan_Admin FOREIGN KEY (IDAdmin) REFERENCES Admin(IDAdmin)
+);
+GO
+
+CREATE TRIGGER trg_AfterInsertNguoiQuanLy
+ON NguoiQuanLy
+AFTER INSERT
+AS
+BEGIN
+    -- Thêm tài khoản vào bảng TaiKhoan nếu chưa có
+    INSERT INTO TaiKhoan (IDTaiKhoan, MatKhau, QuyenHan, IDNguoiQuanLy)
+    SELECT 
+        IDNguoiQuanLy,
+        '123456',
+        N'Quản lý',
+        IDNguoiQuanLy
+    FROM INSERTED
+    WHERE NOT EXISTS (SELECT 1 FROM TaiKhoan WHERE IDTaiKhoan = INSERTED.IDNguoiQuanLy);
+END;
+GO
 INSERT INTO NguoiQuanLy (IDNguoiQuanLy, TenNguoiQuanLy, NgaySinh, SDTNguoiQuanLy)
 VALUES 
 ('quanly01', N'Lê Thị B', '1990-11-25', '0912345678'),
 ('quanly02', N'Nguyễn Tiến D', '1989-5-10', '0987654321');
+GO
+
+CREATE TRIGGER trg_AfterInsertAdmin
+ON Admin
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO TaiKhoan (IDTaiKhoan, MatKhau, QuyenHan, IDAdmin)
+    SELECT 
+        IDAdmin,
+        '123456',
+        N'Admin',
+        IDAdmin
+    FROM INSERTED
+    WHERE NOT EXISTS (SELECT 1 FROM TaiKhoan WHERE IDTaiKhoan = INSERTED.IDAdmin);
+END;
+GO
+
+INSERT INTO Admin (IDAdmin, TenAdmin)
+VALUES 
+('admin01', N'Nguyễn Văn A')
 GO
 
 CREATE TABLE MatBangThuongMai(
@@ -122,8 +156,7 @@ CREATE TABLE CuDan (
 	GiayToTuyThan VARCHAR(50) NOT NULL,
 	SoCanHo VARCHAR(40) NOT NULL,
 	IDNguoiQuanLy VARCHAR(30) NOT NULL,
-    FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy),
-    FOREIGN KEY (IDCuDan) REFERENCES TaiKhoan(IDTaiKhoan)
+    FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy)
 )
 GO
 
