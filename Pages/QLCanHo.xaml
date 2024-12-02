@@ -118,12 +118,14 @@
                                                    materialDesign:HintAssist.Hint="Số căn hộ (Bắt buộc)"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
-                                                   x:Name="txtSoTang"
-                                                   materialDesign:HintAssist.Hint="Số tầng (Bắt buộc)"
-                                                   materialDesign:TextFieldAssist.HasClearButton="True"
-                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
-                    </materialDesign:AutoSuggestBox>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
+                                                  x:Name="comboboxTang"
+                                                  DisplayMemberPath="SoTang"
+                                                  SelectedValuePath="SoTang"
+                                                  materialDesign:HintAssist.Hint="Số Tầng (Bắt buộc)"
+                                                  Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                  SelectionChanged="comboboxTang_SelectionChanged">
+                    </ComboBox>
                     <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtSoCuDan"
                                                    materialDesign:HintAssist.Hint="Số cư dân (Bắt buộc)"

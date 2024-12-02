@@ -40,6 +40,7 @@ namespace QuanLyChungCu.Pages
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxQuanLy();
+            LoadComboBoxTang();
         }
         private void LoadDataGrid()
         {
@@ -74,7 +75,7 @@ namespace QuanLyChungCu.Pages
                     overlayGrid.Opacity = 0.5;
 
                     txtSoCanHo.Text = "";
-                    txtSoTang.Text = "";
+                    comboboxTang.SelectedValue = "";
                     txtSoCuDan.Text = "";
                     txtSoOTo.Text = "";
                     txtSoXeMay.Text = "";
@@ -86,10 +87,10 @@ namespace QuanLyChungCu.Pages
                 case TrangThaiHienTai.Sua:
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
-                    overlayGrid.Opacity = 0.5;
+                    overlayGrid.Opacity = 0.5;         
 
                     txtSoCanHo.Text = row["SoCanHo"].ToString();
-                    txtSoTang.Text = row["SoTang"].ToString();
+                    comboboxTang.SelectedValue = row["SoTang"].ToString();
                     txtSoCuDan.Text = row["SoCuDan"].ToString();
                     txtSoOTo.Text = row["SoOTo"].ToString();
                     txtSoXeMay.Text = row["SoXeMay"].ToString();
@@ -98,6 +99,14 @@ namespace QuanLyChungCu.Pages
                     txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
 
                     break;
+            }
+            if (_trangThaiHienTai == TrangThaiHienTai.Sua)
+            {
+                txtSoCanHo.IsEnabled = false; // Ngăn không cho chỉnh sửa ComboBox tầng
+            }
+            else
+            {
+                txtSoCanHo.IsEnabled = true; // Cho phép chỉnh sửa nếu không phải chế độ sửa
             }
         }
         private void btnTimKiem_Click(object sender, RoutedEventArgs e)
@@ -129,7 +138,7 @@ namespace QuanLyChungCu.Pages
                 DataRowView row = (DataRowView)dtview.SelectedItem;
 
                 txtSoCanHo.Text = row["SoCanHo"].ToString();
-                txtSoTang.Text = row["SoTang"].ToString();
+                comboboxTang.SelectedValue = row["SoTang"].ToString();
                 txtSoCuDan.Text = row["SoCuDan"].ToString();
                 txtSoOTo.Text = row["SoOTo"].ToString();
                 txtSoXeMay.Text = row["SoXeMay"].ToString();
@@ -138,7 +147,32 @@ namespace QuanLyChungCu.Pages
                 txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
             }
         }
-        
+
+        private void LoadComboBoxTang()
+        {
+            // Lấy danh sách tầng từ bảng Tang
+            DataTable dt_tang = Connect.DataTransport("SELECT SoTang FROM Tang");
+
+            if (dt_tang.Rows.Count > 0)
+            {
+                // Gán dữ liệu vào ComboBox
+                comboboxTang.ItemsSource = dt_tang.DefaultView;
+                comboboxTang.DisplayMemberPath = "SoTang"; // Tên cột hiển thị
+                comboboxTang.SelectedValuePath = "SoTang"; // Giá trị được chọn
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu tầng!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void comboboxTang_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboboxTang.SelectedItem != null)
+            {
+                string selectedSoTang = ((DataRowView)comboboxTang.SelectedItem)["SoTang"].ToString();
+            }
+        }
+
         private void comboboxQuanLy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboboxQuanLy.SelectedItem != null)
@@ -192,14 +226,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtSoTang.Text.Trim() == "")
-            {
-                MessageBox.Show("Bạn chưa nhập số tầng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                txtSoTang.Focus();
-                popup.IsOpen = true;
-                overlayGrid.Visibility = Visibility.Visible;
-                return false;
-            }
+
             else if (txtSoCuDan.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa nhập số cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -241,39 +268,48 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Opacity = 0.5;
                 return;
             }
+
             if (_trangThaiHienTai == TrangThaiHienTai.Them)
             {
                 if (kiemtraSoCanHo(txtSoCanHo.Text.Trim()))
                 {
                     MessageBox.Show("Số căn hộ đã tồn tại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     txtSoCanHo.Focus();
-                    popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                    popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
-                    return; // Dừng lại nếu số căn hộ đã tồn tại
+                    return;
                 }
             }
+
             string sSQL = "";
+            string selectedSoTang = ((DataRowView)comboboxTang.SelectedItem)["SoTang"].ToString();
+            string selectedIDNguoiQuanLy = ((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"].ToString();
+
             switch (_trangThaiHienTai)
             {
                 case TrangThaiHienTai.Sua:
-                    sSQL = $"UPDATE CanHo SET SoTang = '{txtSoTang.Text}', SoCuDan = '{txtSoCuDan.Text}', " +
-                        $"SoOTo = '{txtSoOTo.Text}', SoXeMay = '{txtSoXeMay.Text}', SoXeDap = '{txtSoXeDap.Text}', " +
-                        $"IDNguoiQuanLy = '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}' " +
-                        $"WHERE SoCanHo = '{txtSoCanHo.Text}'";
+                    sSQL = $"UPDATE CanHo SET SoCuDan = '{txtSoCuDan.Text}', " +
+                            $"SoOTo = '{txtSoOTo.Text}', SoXeMay = '{txtSoXeMay.Text}', SoXeDap = '{txtSoXeDap.Text}', " +
+                            $"IDNguoiQuanLy = '{selectedIDNguoiQuanLy}', " +
+                            $"SoTang = '{selectedSoTang}' " +
+                            $"WHERE SoCanHo = '{txtSoCanHo.Text}'";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();
                     MessageBox.Show("Chỉnh sửa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
+
                 case TrangThaiHienTai.Them:
-                    sSQL = $"INSERT INTO CanHo(SoCanHo, SoTang, SoCuDan, SoOTo, SoXeMay, SoXeDap, IDNguoiQuanLy) VALUES('{txtSoCanHo.Text}', '{txtSoTang.Text}', " +
-                        $"'{txtSoCuDan.Text}', '{txtSoOTo.Text}', '{txtSoXeMay.Text}', '{txtSoXeDap.Text}', '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}')";
+                    sSQL = $"INSERT INTO CanHo(SoCanHo, SoTang, SoCuDan, SoOTo, SoXeMay, SoXeDap, IDNguoiQuanLy) VALUES(" +
+                            $"'{txtSoCanHo.Text}', '{selectedSoTang}', " +
+                            $"'{txtSoCuDan.Text}', '{txtSoOTo.Text}', '{txtSoXeMay.Text}', '{txtSoXeDap.Text}', '{selectedIDNguoiQuanLy}')";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();
                     MessageBox.Show("Thêm mới thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
             }
+
             Load();
         }
 
