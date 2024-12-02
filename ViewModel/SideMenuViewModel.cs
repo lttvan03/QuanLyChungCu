@@ -8,13 +8,18 @@ using System.Windows.Media;
 namespace QuanLyChungCu.ViewModel
 {
     class SideMenuViewModel
-    {       
+    {
         ResourceDictionary dict = Application.LoadComponent(new Uri("/QuanLyChungCu;component/Assets/IconDictionary.xaml", UriKind.RelativeOrAbsolute)) as ResourceDictionary;
-        private void LogoutCommand() {
-            try {
-                if (MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
-                    foreach (Window window in Application.Current.Windows) {
-                        if (window is MainWindow) {
+        private void LogoutCommand()
+        {
+            try
+            {
+                if (MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (window is MainWindow)
+                        {
                             window.Hide();
                         }
                     }
@@ -22,34 +27,37 @@ namespace QuanLyChungCu.ViewModel
                     loginWindow.Show();
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
 
-        public List<MenuItemsData> MenuList {
-            get {
+        public List<MenuItemsData> MenuList
+        {
+            get
+            {
                 return new List<MenuItemsData>()
                 {
                     //MainMenu with out submenu Button
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_dashboard"], MenuText = "Trang chủ", NavigateToPage = "Dashboard" , SubMenuList = null},
 
                     //MainMenu Button
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "QLCanHo",
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực dân cư", NavigateToPage = "QLCuDan",
 
                         //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_building"], SubMenuText = "Căn hộ", NavigateToPage = "QLCanHo"},
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cudan"], SubMenuText = "Cư dân", NavigateToPage = "QLCuDan"} } },
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cudan"], SubMenuText = "Cư dân", NavigateToPage = "QLCuDan"},
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_building"], SubMenuText = "Căn hộ", NavigateToPage = "QLCanHo"} } },
 
                     //MainMenu Button
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực thương mại", NavigateToPage = "KVThuongMai", SubMenuList = null },
 
-                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "HDThuongMai",
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "HDCuDan", 
+                    //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_car"], SubMenuText = "Hóa đơn thương mại", NavigateToPage = "HDThuongMai"},
-                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_bike"], SubMenuText = "Hóa đơn cư dân", NavigateToPage = "HDCuDan"} }
-
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cashcudan"], SubMenuText = "Hóa đơn cư dân", NavigateToPage = "HDCuDan"},
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_cash"], SubMenuText = "Hóa đơn thương mại", NavigateToPage = "HDThuongMai" } }
                     },
 
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_vehicle"], MenuText = "Phương tiện", NavigateToPage = "QLoto", 
@@ -63,6 +71,7 @@ namespace QuanLyChungCu.ViewModel
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_users"], MenuText = "Tài khoản", NavigateToPage = "QLTaiKhoan",  
                         //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
+                            new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_users"], SubMenuText = "Tất cả tài khoản", NavigateToPage = "QLTaiKhoan"},
                             new SubMenuItemsData() { PathData = (PathGeometry)dict["icon_users"], SubMenuText = "Thông tin tài khoản", NavigateToPage = "Profile"} }
                     },
 
@@ -81,19 +90,24 @@ namespace QuanLyChungCu.ViewModel
         public List<SubMenuItemsData> SubMenuList { get; set; }
 
         //Click event
-        public MenuItemsData() {
+        public MenuItemsData()
+        {
             Command = new CommandViewModel(Execute);
         }
 
         public ICommand Command { get; set; }
-        private void Execute() {
+        private void Execute()
+        {
             string MT = NavigateToPage.Replace(" ", string.Empty);
             if (!string.IsNullOrEmpty(MT))
                 navigateToPage(MT);
         }
-        private void navigateToPage(string Menu) {
-            foreach (Window window in Application.Current.Windows) {
-                if (window.GetType() == typeof(MainWindow)) {
+        private void navigateToPage(string Menu)
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
                     (window as MainWindow).MainWindowFrame.Navigate(new Uri(string.Format("{0}{1}{2}", "Pages/", Menu, ".xaml"), UriKind.RelativeOrAbsolute));
                 }
             }
@@ -105,23 +119,28 @@ namespace QuanLyChungCu.ViewModel
         public string SubMenuText { get; set; }
         public string NavigateToPage { get; set; }
 
-        public SubMenuItemsData() {
+        public SubMenuItemsData()
+        {
             SubMenuCommand = new CommandViewModel(Execute);
         }
 
         public ICommand SubMenuCommand { get; }
-        private void Execute() {
-            
+        private void Execute()
+        {
+
             //our logic comes here
             string SMT = NavigateToPage.Replace(" ", string.Empty);
             if (!string.IsNullOrEmpty(SMT))
                 navigateToPage(SMT);
-            }
-      
+        }
 
-        private void navigateToPage(string Menu) {
-            foreach (Window window in Application.Current.Windows) {
-                if (window.GetType() == typeof(MainWindow)) {
+
+        private void navigateToPage(string Menu)
+        {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
                     (window as MainWindow).MainWindowFrame.Navigate(new Uri(string.Format("{0}{1}{2}", "Pages/", Menu, ".xaml"), UriKind.RelativeOrAbsolute));
                 }
             }

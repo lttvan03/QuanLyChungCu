@@ -1,5 +1,7 @@
-﻿using System;
+﻿using QuanLyChungCu.ConnectDatabase;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using QuanLyChungCu.ConnectDatabase;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using static QuanLyChungCu.Pages.KVDanCu;
-using static QuanLyChungCu.MainWindow;
-using System.Windows.Threading;
-
 
 namespace QuanLyChungCu.Pages
 {
@@ -27,98 +22,313 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLCanHo : Page
     {
-        //Khi form vừa mở lên thì sẽ ở trạng thái Xem
+        private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
-        private DataTable dGrid;
-
         public enum TrangThaiHienTai
         {
             Xem = 0,
             Them = 1,
             Sua = 2
         }
-
-        public QLCanHo() {
+        public QLCanHo()
+        {
             InitializeComponent();
+            Load();
         }
+        private void Load()
+        {
+            LoadStatus();
+            LoadDataGrid();
+            LoadComboBoxQuanLy();
+        }
+        private void LoadDataGrid()
+        {
+            dGrid = Connect.DataTransport("SELECT * FROM CanHo INNER JOIN NguoiQuanLy ON CanHo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy");
 
-        private void LoadStatus() {
-            switch (_trangThaiHienTai) {
+
+            dGrid.Columns.Add("SoXe", typeof(string));
+
+            foreach (DataRow row in dGrid.Rows)
+            {
+                int soOTo = Convert.ToInt32(row["SoOTo"]);
+                int soXeMay = Convert.ToInt32(row["SoXeMay"]);
+                int soXeDap = Convert.ToInt32(row["SoXeDap"]);
+                string SoXe = $"Ô tô: {soOTo}, Xe máy: {soXeMay}, Xe đạp: {soXeDap}";
+                row["SoXe"] = SoXe;
+            }
+            dtview.ItemsSource = dGrid.DefaultView;
+        }
+        private void LoadStatus()
+        {
+            DataRowView row = (DataRowView)dtview.SelectedItem;
+            switch (_trangThaiHienTai)
+            {
                 case TrangThaiHienTai.Xem:
                     popup.IsOpen = false;
                     overlayGrid.Visibility = Visibility.Collapsed;
-                    overlayGrid.Opacity = 0;
-                    break;
-                case TrangThaiHienTai.Sua:
-                    popup.IsOpen = true;
-                    overlayGrid.Visibility = Visibility.Visible;
-                    overlayGrid.Opacity = 0.5;
+
                     break;
                 case TrangThaiHienTai.Them:
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+
+                    txtSoCanHo.Text = "";
+                    txtSoTang.Text = "";
+                    txtSoCuDan.Text = "";
+                    txtSoOTo.Text = "";
+                    txtSoXeMay.Text = "";
+                    txtSoXeDap.Text = "";
+                    comboboxQuanLy.SelectedValue = "";
+                    txtQuanLy.Text = "";
+
+                    break;
+                case TrangThaiHienTai.Sua:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+
+                    txtSoCanHo.Text = row["SoCanHo"].ToString();
+                    txtSoTang.Text = row["SoTang"].ToString();
+                    txtSoCuDan.Text = row["SoCuDan"].ToString();
+                    txtSoOTo.Text = row["SoOTo"].ToString();
+                    txtSoXeMay.Text = row["SoXeMay"].ToString();
+                    txtSoXeDap.Text = row["SoXeDap"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
                     break;
             }
         }
+        private void btnTimKiem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtTimKiem.Text))
+            {
+                string searchText = txtTimKiem.Text.ToLower().Trim();
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            this.Cursor = Cursors.Wait;
-            LoadDataGrid();
-            this.Cursor = Cursors.Arrow;
+                string sSQL = $"SELECT * FROM CanHo " +
+                    $"INNER JOIN NguoiQuanLy ON CanHo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                    $"WHERE LOWER(SoCanHo) LIKE LOWER('%{searchText}%') OR LOWER(SoTang) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(SoCuDan) LIKE LOWER('%{searchText}%') OR LOWER(SoOTo) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(SoXeMay) LIKE LOWER('%{searchText}%') OR LOWER(SoXeDap) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                    $"OR LOWER(CanHo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
+
+                DataTable dTimKiem = Connect.DataTransport(sSQL);
+                dtview.ItemsSource = dTimKiem.DefaultView;
+            }
+            else
+            {
+                LoadDataGrid();
+            }
         }
+        private void dtview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dtview.SelectedItem != null)
+            {
+                DataRowView row = (DataRowView)dtview.SelectedItem;
 
-        private void LoadDataGrid(string sKey = "") {
-            dGrid = Connect.DataTransport("select * from HoaTuoi");
+                txtSoCanHo.Text = row["SoCanHo"].ToString();
+                txtSoTang.Text = row["SoTang"].ToString();
+                txtSoCuDan.Text = row["SoCuDan"].ToString();
+                txtSoOTo.Text = row["SoOTo"].ToString();
+                txtSoXeMay.Text = row["SoXeMay"].ToString();
+                txtSoXeDap.Text = row["SoXeDap"].ToString();
+                comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+            }
+        }
+        
+        private void comboboxQuanLy_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboboxQuanLy.SelectedItem != null)
+            {
+                string selectedID = ((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"].ToString();
 
-            // Xóa hoàn toàn ItemsSource trước khi gán lại
-            dtview.ItemsSource = null; // Hủy gán ItemsSource cũ
-            dtview.Items.Clear(); // Xóa hết các mục hiện tại
+                DataTable dt_quanly = Connect.DataTransport($"SELECT TenNguoiQuanLy FROM NguoiQuanLy WHERE IDNguoiQuanLy = '{selectedID}'");
 
-            // Gán lại ItemsSource với dữ liệu mới
-            dtview.ItemsSource = dGrid.DefaultView;
-            if (!string.IsNullOrEmpty(sKey)) {
-                if (!dtview.IsFocused)
-                    dtview.Focus();
-                for (int i = 0; i < dtview.Items.Count; i++) {
-                    DataRowView dr = (DataRowView)dtview.Items[i];
-                    if (dr["MaHoaTuoi"].ToString() == sKey) {
-                        //Focus vào dòng vừa thêm, hoặc dòng vừa sửa
-                        FocusRow(i);
-                    }
+                if (dt_quanly.Rows.Count > 0)
+                {
+                    txtQuanLy.Text = dt_quanly.Rows[0]["TenNguoiQuanLy"].ToString();
+                }
+                else
+                {
+                    txtQuanLy.Clear();
                 }
             }
         }
-        private void FocusRow(int i) {
-            Dispatcher.BeginInvoke((Action)(() =>
+        private void LoadComboBoxQuanLy()
+        {
+            // Lấy danh sách ID từ bảng CuDan
+            DataTable dt_quanly = Connect.DataTransport("SELECT DISTINCT IDNguoiQuanLy FROM NguoiQuanLy");
+
+            if (dt_quanly.Rows.Count > 0)
             {
-                dtview.SelectedIndex = i;
-                dtview.ScrollIntoView(dtview.Items[i]);
-            }), DispatcherPriority.Render);
+                // Gán dữ liệu vào ComboBox
+                comboboxQuanLy.ItemsSource = dt_quanly.DefaultView;
+                comboboxQuanLy.DisplayMemberPath = "IDNguoiQuanLy"; // Tên cột hiển thị
+                comboboxQuanLy.SelectedValuePath = "IDNguoiQuanLy"; // Giá trị được chọn
+            }
+            else
+            {
+                MessageBox.Show("Không có dữ liệu người quản lý!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
-        private void dtview_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
-
-        private void dtview_Loaded(object sender, RoutedEventArgs e) {
-            DataSet data = new DataSet();
-        }
-
-        private void btnSua_Click(object sender, RoutedEventArgs e) {
-            _trangThaiHienTai = TrangThaiHienTai.Sua;
+        private void btnHuy_Click(object sender, RoutedEventArgs e)
+        {
+            _trangThaiHienTai = TrangThaiHienTai.Xem;
             LoadStatus();
         }
+        private bool AllowSave()
+        {
+            popup.IsOpen = false; // Tạm thời ẩn Popup
+            overlayGrid.Visibility = Visibility.Collapsed;
 
-        
-        private void btnThem_Click(object sender, RoutedEventArgs e) {
+            if (txtSoCanHo.Text.Trim() == "")
+            {
+                MessageBox.Show("Bạn chưa nhập số căn hộ.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtSoCanHo.Focus();
+                popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtSoTang.Text.Trim() == "")
+            {
+                MessageBox.Show("Bạn chưa nhập số tầng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtSoTang.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtSoCuDan.Text.Trim() == "")
+            {
+                MessageBox.Show("Bạn chưa nhập số cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtSoCuDan.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else if (txtQuanLy.Text.Trim() == "")
+            {
+                MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuanLy.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool kiemtraSoCanHo(string soCanHo)
+        {
+            string sSQL = $"SELECT COUNT(*) FROM CanHo WHERE SoCanHo = '{soCanHo}'";
+            DataTable dt = Connect.DataTransport(sSQL);
+            if (dt.Rows.Count > 0)
+            {
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                return count > 0;
+            }
+            return false; 
+        }
+        private void btnLuu_Click(object sender, RoutedEventArgs e)
+        {
+            if (!AllowSave())
+            {
+                popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                overlayGrid.Visibility = Visibility.Visible;
+                overlayGrid.Opacity = 0.5;
+                return;
+            }
+            if (_trangThaiHienTai == TrangThaiHienTai.Them)
+            {
+                if (kiemtraSoCanHo(txtSoCanHo.Text.Trim()))
+                {
+                    MessageBox.Show("Số căn hộ đã tồn tại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtSoCanHo.Focus();
+                    popup.IsOpen = true; // Hiển thị lại Popup nếu cần
+                    overlayGrid.Visibility = Visibility.Visible;
+                    return; // Dừng lại nếu số căn hộ đã tồn tại
+                }
+            }
+            string sSQL = "";
+            switch (_trangThaiHienTai)
+            {
+                case TrangThaiHienTai.Sua:
+                    sSQL = $"UPDATE CanHo SET SoTang = '{txtSoTang.Text}', SoCuDan = '{txtSoCuDan.Text}', " +
+                        $"SoOTo = '{txtSoOTo.Text}', SoXeMay = '{txtSoXeMay.Text}', SoXeDap = '{txtSoXeDap.Text}', " +
+                        $"IDNguoiQuanLy = '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}' " +
+                        $"WHERE SoCanHo = '{txtSoCanHo.Text}'";
+                    Connect.DataExecution1(sSQL);
+                    _trangThaiHienTai = TrangThaiHienTai.Xem;
+                    LoadStatus();
+                    MessageBox.Show("Chỉnh sửa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    break;
+                case TrangThaiHienTai.Them:
+                    sSQL = $"INSERT INTO CanHo(SoCanHo, SoTang, SoCuDan, SoOTo, SoXeMay, SoXeDap, IDNguoiQuanLy) VALUES('{txtSoCanHo.Text}', '{txtSoTang.Text}', " +
+                        $"'{txtSoCuDan.Text}', '{txtSoOTo.Text}', '{txtSoXeMay.Text}', '{txtSoXeDap.Text}', '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}')";
+                    Connect.DataExecution1(sSQL);
+                    _trangThaiHienTai = TrangThaiHienTai.Xem;
+                    LoadStatus();
+                    MessageBox.Show("Thêm mới thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    break;
+            }
+            Load();
+        }
+
+        private void btnSua_Click(object sender, RoutedEventArgs e)
+        {
+            if (dtview.SelectedItem != null)
+            {
+                _trangThaiHienTai = TrangThaiHienTai.Sua;
+                LoadStatus();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn thông tin cần sửa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void btnThem_Click(object sender, RoutedEventArgs e)
+        {
             _trangThaiHienTai = TrangThaiHienTai.Them;
             LoadStatus();
         }
 
-        private void btnHuy_Click(object sender, RoutedEventArgs e) {
-            _trangThaiHienTai = TrangThaiHienTai.Xem;
-            LoadStatus();
+        private void btnXoa_Click(object sender, RoutedEventArgs e)
+        {
+            if (dtview.SelectedItem != null)
+            {
+                string sSQL = "";
+                DataRowView selectedRow = dtview.SelectedItem as DataRowView;
+                if (selectedRow != null)
+                {
+                    string id = selectedRow["SoCanHo"].ToString();
+                    if (MessageBox.Show("Bạn có muốn xóa căn hộ có số " + id, "Thông báo",
+                            MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        sSQL = $"DELETE FROM CanHo WHERE SoCanHo = '{txtSoCanHo.Text}'";
+                        // Thực thi câu lệnh xóa
+                        int result = Connect.DataExecution1(sSQL);
+                        if (result == 1)
+                        {
+                            MessageBox.Show("Xóa thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                            LoadDataGrid(); // Cập nhật lại DataGrid
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Hiển thị thông báo khi không có gì được chọn
+                MessageBox.Show("Vui lòng chọn thông tin cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
+
     }
 }
