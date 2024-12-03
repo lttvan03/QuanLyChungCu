@@ -43,6 +43,9 @@ CREATE TABLE TaiKhoan (
     IDNguoiQuanLy VARCHAR(30),
     IDAdmin VARCHAR(30),
     IDCuDan VARCHAR(30)
+	FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy),
+	FOREIGN KEY (IDAdmin) REFERENCES Admin(IDAdmin),
+	FOREIGN KEY (IDCuDan) REFERENCES CuDan(IDCuDan)
 );
 GO
 
@@ -142,7 +145,9 @@ CREATE TABLE MatBangThuongMai(
 	DienTich FLOAT,
 	TenDonViThue NVARCHAR(50),
 	GiaThue FLOAT,
-	TinhTrang NVARCHAR(50) NOT NULL
+	TinhTrang NVARCHAR(50) NOT NULL,
+	IDNguoiQuanLy VARCHAR(30)
+	FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy)
 )
 GO
 
