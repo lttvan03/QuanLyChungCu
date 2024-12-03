@@ -5,10 +5,109 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuanLyChungCu.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+      Background="#f1f1f1"
+      FontSize="15"
+
+      
+      d:DesignHeight="450" d:DesignWidth="600"
       Title="Profile">
 
-    <Grid>
-        <TextBlock FontSize="30" Text="Thông tin tài khoản" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid Margin="10 5 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Thông tin tài khoản" FontSize="20"
+                   Padding="5" Margin="10 10 10 0"></TextBlock>
+        <Border Grid.Row="1" CornerRadius="10" Margin="10" Background="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="20 20 20 10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Ảnh đại diện" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Image x:Name="imgAvt" Width="100"  Source="{Binding Path=Avatar}" Height="100" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1"></Image>
+                    <Button x:Name="btnAvatar" Content="Thay đổi ảnh đại diện" Grid.Row="1" Grid.Column="1" Width="200"
+                            HorizontalAlignment="Left" Margin="0 20 0 0" Click="btnAvatar_Click"></Button>
+                </Grid>
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                    Text="Họ và tên" Margin="20 0 25 0"></TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" Width="auto" Margin="0 0 30 0"
+                         materialDesign:HintAssist.Hint="Họ và tên" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                         x:Name="txtHoTen"></TextBox>                
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Text="Ngày sinh" Margin="20 10 25 0"></TextBlock>
+                <DatePicker  Grid.Row="2" Grid.Column="1" Margin="0 10 30 0"
+                             materialDesign:HintAssist.Hint="Ngày sinh"
+                             x:Name="txtNgaySinh" >
+                </DatePicker>
+                <CheckBox x:Name="cbPass" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Checked="cbPass_Checked" Unchecked="cbPass_Unchecked"
+                          Content="Thay đổi mật khẩu" Margin="20 10 25 0"
+                          VerticalAlignment="Center" VerticalContentAlignment="Center"
+                          HorizontalAlignment="Left">
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="Width" Value="200"></Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+                <Grid x:Name="grMatKhau" Visibility="Collapsed" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Text="Mật khẩu cũ" Margin="20 10 25 0"></TextBlock>
+                    <PasswordBox Grid.Row="0" Grid.Column="1" Width="auto" Margin="0 10 30 0"
+                             materialDesign:HintAssist.Hint="Mật khẩu cũ (Bắt buộc)" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                             x:Name="txtMatKhau"></PasswordBox>
+                    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Text="Mật khẩu mới" Margin="20 10 25 0"></TextBlock>
+                    <PasswordBox Grid.Row="1" Grid.Column="1" Width="auto" Margin="0 10 30 0"
+                             materialDesign:HintAssist.Hint="Mật khẩu mới (Bắt buộc)" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                             x:Name="txtMatKhauNew"></PasswordBox>
+                    <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Text="Nhập lại mật khẩu mới" Margin="20 10 25 0"></TextBlock>
+                    <PasswordBox Grid.Row="2" Grid.Column="1" Width="auto" Margin="0 10 30 0"
+                             materialDesign:HintAssist.Hint="Mật khẩu mới (Bắt buộc)" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                             x:Name="txtNhapLaiMK"></PasswordBox>                    
+                </Grid>
+                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Sửa" Width="150"
+                            x:Name="btnSua" HorizontalAlignment="Center" Margin="0 20 10 0"></Button>
+                    <Button Grid.ColumnSpan="2" Content="Cập nhật" Width="150"
+                            x:Name="btnCapNhat" HorizontalAlignment="Center" Margin="0 20 0 0"></Button>
+                </StackPanel>
+            </Grid>            
+        </Border>
     </Grid>
 </Page>

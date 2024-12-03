@@ -8,7 +8,7 @@
       
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
-      Background="#c5c5c5"
+      Background="#f1f1f1"
 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="QLTaiKhoan">
@@ -58,10 +58,17 @@
 
                 </Grid>
                 <Border Grid.Row="1" CornerRadius="4" Margin="10 5 16 20" Background="#c5c5c5" Height="auto" Grid.ColumnSpan="2">
-                    <DataGrid x:Name="dtview" Background="White"
+                    <DataGrid x:Name="dtview" Background="White" VerticalContentAlignment="Center"
                               IsReadOnly="True" AutoGenerateColumns="False" 
                               SelectionChanged="dtview_SelectionChanged">
                         <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Ảnh đại diện">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Width="50" Height="50" Source="{Binding Path=Avatar}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>         
                             <DataGridTextColumn Header="ID" 
                                         Binding="{Binding IDTaiKhoan}"
                                         MinWidth="80"

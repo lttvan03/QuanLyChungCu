@@ -146,7 +146,8 @@
                                     GroupName="MainMenu"
                                     Height="30"
                                     Style="{StaticResource MenuButtonStyle}"
-                                    Command="{Binding Command}"></RadioButton>
+                                    Command="{Binding Command}">
+                    </RadioButton>
 
                     <!--Sub Menu-->
                     <ListBox

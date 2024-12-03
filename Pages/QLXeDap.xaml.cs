@@ -1,4 +1,5 @@
-﻿using QuanLyChungCu.ConnectDatabase;
+﻿using Microsoft.EntityFrameworkCore.Update;
+using QuanLyChungCu.ConnectDatabase;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +23,8 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLXeDap : Page
     {
+        private string currentUserQH;
+        private string currentUserID;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -35,13 +38,32 @@ namespace QuanLyChungCu.Pages
             Load();
         }
         private void Load() {
+            currentUserID = GetCurrentUserID();
+            currentUserQH = GetCurrentUserQH();
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxCuDan();
             LoadComboBoxQuanLy();
         }
+        private string GetCurrentUserID() {
+            return App.Current.Properties["ID"]?.ToString();
+        }
+        private string GetCurrentUserQH() {
+            return App.Current.Properties["UserRole"]?.ToString();
+        }
         private void LoadDataGrid() {
-            dGrid = Connect.DataTransport("SELECT * FROM XeDap INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy");
+            if(currentUserQH == "Cư dân") {
+                string sSQL = $"SELECT * FROM XeDap INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE XeDap.IDCuDan = '{currentUserID}'";
+                dGrid = Connect.DataTransport(sSQL);
+                btnThem.Visibility = Visibility.Collapsed;
+                btnSua.Visibility = Visibility.Collapsed;
+                btnXoa.Visibility = Visibility.Collapsed;
+                dtview.ItemsSource = dGrid.DefaultView;
+            }
+            else if(currentUserQH == "Admin"|| currentUserQH == "Quản lý") {
+                dGrid = Connect.DataTransport("SELECT * FROM XeDap INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy");
+                dtview.ItemsSource = dGrid.DefaultView;
+            }
             dtview.ItemsSource = dGrid.DefaultView;
         }
         private void LoadStatus() {
@@ -268,16 +290,10 @@ namespace QuanLyChungCu.Pages
                     string id = selectedRow["IDXeDap"].ToString();
                     if (MessageBox.Show("Bạn có muốn xóa xe máy có ID là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
-                        sSQL = $"DELETE FROM XeDap WHERE IDXeDap = {txtIDXeDap.Text}";
+                        sSQL = $"DELETE FROM XeDap WHERE IDXeDap = '{id}'";
                         // Thực thi câu lệnh xóa
-                        int result = Connect.DataExecution1(sSQL);
-                        if (result == 1) {
-                            MessageBox.Show("Xóa thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                            LoadDataGrid(); // Cập nhật lại DataGrid
-                        }
-                        else {
-                            MessageBox.Show("Xóa thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                        Connect.DataExecution1(sSQL);
+                        LoadDataGrid(); // Cập nhật lại DataGrid
                     }
                 }
             }

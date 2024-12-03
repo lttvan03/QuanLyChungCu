@@ -16,6 +16,12 @@
     <PackageReference Include="MaterialDesignColors" Version="3.1.1-ci795" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.1-ci795" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0-preview2.24304.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

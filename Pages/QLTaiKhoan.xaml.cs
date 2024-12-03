@@ -23,6 +23,7 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLTaiKhoan : Page
     {
+        private string userRole;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -36,7 +37,8 @@ namespace QuanLyChungCu.Pages
             InitializeComponent();
             Load();
         }
-        private void Load() {
+
+    private void Load() {
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxQuyen();
@@ -67,6 +69,7 @@ namespace QuanLyChungCu.Pages
                     txtTenNguoiDung.Text = "";
                     txtMatKhau.Text = "123456";
                     comboboxQuyen.Text = "Quản lý";
+                    
 
                     comboboxQuyen.IsEnabled = false;
                     txtIDTaiKhoan.IsReadOnly = false;
@@ -188,6 +191,13 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
+            else if (txtSDT.Text.Length != 10) { 
+                MessageBox.Show("Số điện thoại phải đủ 10 ký tự.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtSDT.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
             else if (comboboxQuyen.SelectedValue == "") {
                 MessageBox.Show("Bạn chưa chọn quyền.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuyen.Focus();
@@ -252,7 +262,7 @@ namespace QuanLyChungCu.Pages
                     string id = selectedRow["IDTaiKhoan"].ToString();
                     if (MessageBox.Show("Bạn có muốn xóa tài khoản có ID là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
-                        sSQL = $"DELETE FROM TaiKhoan WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
+                        sSQL = $"DELETE FROM TaiKhoan WHERE IDTaiKhoan = '{id}'";
                         // Thực thi câu lệnh xóa
                         int result = Connect.DataExecution1(sSQL);
                         if (result == 1) {

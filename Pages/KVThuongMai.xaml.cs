@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,6 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class KVThuongMai : Page
     {
-        public KVThuongMai() {
-            InitializeComponent();
-        }
+        
     }
 }

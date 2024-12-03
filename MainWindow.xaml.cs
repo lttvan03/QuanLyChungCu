@@ -1,4 +1,5 @@
 ﻿using QuanLyChungCu.CustomControl;
+using QuanLyChungCu.Pages;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,19 +22,26 @@ namespace QuanLyChungCu
         public event EventHandler Logout;
         public MainWindow() {
             InitializeComponent();
+
+            MainWindowFrame.Navigate(new Dashboard());
+
+        }
+        private void btnLogout_Click(object sender, RoutedEventArgs e) {
+            // Gọi sự kiện Logout khi người dùng bấm nút Logout
+            Logout?.Invoke(this, EventArgs.Empty);
         }
 
-        private void Window_Closed(object sender, EventArgs e) {
-            if (isExit && Application.Current.Windows.Count == 1)
-                Application.Current.Shutdown();
-        }
+        //private void Window_Closed(object sender, EventArgs e) {
+        //    if (isExit && Application.Current.Windows.Count == 1)
+        //        Application.Current.Shutdown();
+        //}
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            if (isExit) {
-                if (MessageBox.Show("Bạn muốn thoát chương trình", "Cảnh báo", MessageBoxButton.YesNo) != MessageBoxResult.Yes) {
-                    e.Cancel = true;
-                }
-            }
-        }
+        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+        //    if (isExit) {
+        //        if (MessageBox.Show("Bạn muốn thoát chương trình", "Cảnh báo", MessageBoxButton.YesNo) != MessageBoxResult.Yes) {
+        //            e.Cancel = true;
+        //        }
+        //    }
+        //}
     }
 }
