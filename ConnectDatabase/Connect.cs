@@ -46,6 +46,26 @@ namespace QuanLyChungCu.ConnectDatabase
             return dtTable;
         }
 
+        public static DataTable DataTransport1(string sSQL, Dictionary<string, object> parameters = null) {
+            using (SqlConnection conn = new SqlConnection(sConnect)) {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sSQL, conn);
+
+                // Thêm tham số nếu có
+                if (parameters != null) {
+                    foreach (var param in parameters) {
+                        cmd.Parameters.AddWithValue(param.Key, param.Value);
+                    }
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+
         ///// <summary>
         ///// Lưu dữ liệu xuống Database
         ///// </summary>
