@@ -102,10 +102,8 @@
                              x:Name="txtNhapLaiMK"></PasswordBox>                    
                 </Grid>
                 <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Sửa" Width="150"
-                            x:Name="btnSua" HorizontalAlignment="Center" Margin="0 20 10 0"></Button>
-                    <Button Grid.ColumnSpan="2" Content="Cập nhật" Width="150"
-                            x:Name="btnCapNhat" HorizontalAlignment="Center" Margin="0 20 0 0"></Button>
+                    <Button Grid.ColumnSpan="2" Content="Cập nhật" Width="150" Visibility="Collapsed"
+                            x:Name="btnCapNhat" HorizontalAlignment="Center" Margin="0 20 0 0" Click="btnCapNhat_Click"></Button>
                 </StackPanel>
             </Grid>            
         </Border>

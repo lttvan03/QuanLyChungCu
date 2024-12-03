@@ -23,11 +23,22 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class Profile : Page
     {
-
+        private string currentUserPass; 
+        private string currentUserID;
         public Profile() {
             InitializeComponent();
             LoadData();
+            currentUserPass = GetCurrentUserPass();
+            currentUserID = GetCurrentUserID();
         }
+        private string GetCurrentUserID() {
+            return App.Current.Properties["ID"]?.ToString();
+        }
+
+        private string GetCurrentUserPass() {
+            return App.Current.Properties["MK"]?.ToString();
+        }
+
         private DataTable dGrid = new DataTable();
 
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
@@ -42,6 +53,10 @@ namespace QuanLyChungCu.Pages
         }
 
         private void LoadData() {
+            grMatKhau.Visibility = Visibility.Collapsed;
+            btnCapNhat.Visibility = Visibility.Collapsed;
+            cbPass.IsChecked = false;
+
             string currentUserId = GetCurrentUserId();
 
             string sSQL = "SELECT *, CONCAT(CuDan.TenCuDan, ' ', NguoiQuanLy.TenNguoiQuanLy, ' ', Admin.TenAdmin) AS TenNguoiDung, " +
@@ -108,11 +123,13 @@ namespace QuanLyChungCu.Pages
         private void cbPass_Checked(object sender, RoutedEventArgs e) {
             // Khi CheckBox được tích, hiển thị grMatKhau
             grMatKhau.Visibility = Visibility.Visible;
+            btnCapNhat.Visibility = Visibility.Visible;
         }
 
         private void cbPass_Unchecked(object sender, RoutedEventArgs e) {
             // Khi CheckBox không được tích, ẩn grMatKhau
             grMatKhau.Visibility = Visibility.Collapsed;
+            btnCapNhat.Visibility = Visibility.Collapsed;
         }
 
         private void btnAvatar_Click(object sender, RoutedEventArgs e) {
@@ -157,6 +174,41 @@ namespace QuanLyChungCu.Pages
             else {
                 MessageBox.Show("Không thể cập nhật ảnh đại diện. Vui lòng thử lại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void btnCapNhat_Click(object sender, RoutedEventArgs e) {
+            // Kiểm tra mật khẩu cũ
+            if (string.IsNullOrWhiteSpace(txtMatKhau.Password)) {
+                MessageBox.Show("Bạn chưa nhập mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (txtMatKhau.Password != currentUserPass) {
+                MessageBox.Show("Nhập sai mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Kiểm tra mật khẩu mới
+            if (string.IsNullOrWhiteSpace(txtMatKhauNew.Password)) {
+                MessageBox.Show("Bạn chưa nhập mật khẩu mới!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            // Kiểm tra nhập lại mật khẩu mới
+            if (string.IsNullOrWhiteSpace(txtNhapLaiMK.Password)) {
+                MessageBox.Show("Bạn chưa nhập lại mật khẩu mới!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (txtMatKhauNew.Password != txtNhapLaiMK.Password) {
+                MessageBox.Show("Mật khẩu mới chưa khớp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            string sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhauNew.Password}' WHERE IDTaiKhoan = '{currentUserID}' ";
+            Connect.DataExecution1(sSQL);
+            MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            LoadData();
         }
     }
 }
