@@ -295,7 +295,8 @@ namespace QuanLyChungCu.Pages
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
                         sSQL = $"DELETE FROM XeMay WHERE IDXeMay = {id}";
                         // Thực thi câu lệnh xóa
-                        int result = Connect.DataExecution1(sSQL);
+                        Connect.DataExecution1(sSQL);
+                        MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                         LoadDataGrid(); // Cập nhật lại DataGrid
                     }
                 }

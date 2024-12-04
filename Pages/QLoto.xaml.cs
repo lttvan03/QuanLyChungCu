@@ -298,7 +298,10 @@ namespace QuanLyChungCu.Pages
                     string id = selectedRow["IDXeOTo"].ToString();
                     if (MessageBox.Show("Bạn có muốn xóa xe ô tô có ID là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
-                        sSQL = $"DELETE FROM XeOTo WHERE IDXeOTo = {txtIDoto.Text}";
+                        sSQL = $"DELETE FROM XeOTo WHERE IDXeOTo = '{id}'";
+                        Connect.DataExecution1(sSQL);
+                        MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        Load();
                     }
                 }
             }

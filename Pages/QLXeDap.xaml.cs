@@ -293,6 +293,7 @@ namespace QuanLyChungCu.Pages
                         sSQL = $"DELETE FROM XeDap WHERE IDXeDap = '{id}'";
                         // Thực thi câu lệnh xóa
                         Connect.DataExecution1(sSQL);
+                        MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                         LoadDataGrid(); // Cập nhật lại DataGrid
                     }
                 }
