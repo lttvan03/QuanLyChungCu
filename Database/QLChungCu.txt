@@ -1,8 +1,3 @@
-﻿USE master;
-ALTER DATABASE QLChungCu SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-DROP DATABASE QLChungCu;
-GO
-
 CREATE DATABASE QLChungCu
 GO
 
@@ -146,16 +141,16 @@ CREATE TABLE MatBangThuongMai(
 	TenDonViThue NVARCHAR(50),
 	GiaThue FLOAT,
 	TinhTrang NVARCHAR(50) NOT NULL,
-	IDNguoiQuanLy VARCHAR(30) NOT NULL
+	IDNguoiQuanLy VARCHAR(30)
 	FOREIGN KEY (IDNguoiQuanLy) REFERENCES NguoiQuanLy(IDNguoiQuanLy)
 )
 GO
 
-INSERT INTO MatBangThuongMai (DienTich, TenDonViThue, GiaThue, TinhTrang, IDNguoiQuanLy)
+INSERT INTO MatBangThuongMai (DienTich, TenDonViThue, GiaThue, TinhTrang)
 VALUES 
-(120.5, N'Công ty ABC', 20000000, N'Đang thuê','quanly01'),
-(80.0, N'Lê Văn C', 15000000, N'Chưa cho thuê','quanly01'),
-(100.0, N'Cửa hàng XYZ', 18000000, N'Đang thuê','quanly01');
+(120.5, N'Công ty ABC', 20000000, N'Đang thuê'),
+(80.0, N'Lê Văn C', 15000000, N'Chưa cho thuê'),
+(100.0, N'Cửa hàng XYZ', 18000000, N'Đang thuê');
 GO
 
 CREATE TABLE HoaDonTM (
