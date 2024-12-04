@@ -64,17 +64,17 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Số căn hộ" 
                                         Binding="{Binding SoCanHo}"
-                                        MinWidth="80"
-                                        MaxWidth="100"
+                                        MinWidth="100"
+                                        MaxWidth="120"
                                         Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Số tầng" 
-                                        MaxWidth="150"
-                                        MinWidth="100"
+                                        MaxWidth="100"
+                                        MinWidth="80"
                                         Width="*"
                                         Binding="{Binding SoTang}"></DataGridTextColumn>
                             <DataGridTextColumn  Header="Số cư dân"
-                                        MaxWidth="150"
-                                        MinWidth="100"
+                                        MaxWidth="100"
+                                        MinWidth="80"
                                         Width="*"
                                         Binding="{Binding SoCuDan}"></DataGridTextColumn>
                             <DataGridTextColumn  Header="Phương tiện" 

@@ -150,15 +150,13 @@ namespace QuanLyChungCu.Pages
 
         private void LoadComboBoxTang()
         {
-            // Lấy danh sách tầng từ bảng Tang
             DataTable dt_tang = Connect.DataTransport("SELECT SoTang FROM Tang");
 
             if (dt_tang.Rows.Count > 0)
             {
-                // Gán dữ liệu vào ComboBox
                 comboboxTang.ItemsSource = dt_tang.DefaultView;
-                comboboxTang.DisplayMemberPath = "SoTang"; // Tên cột hiển thị
-                comboboxTang.SelectedValuePath = "SoTang"; // Giá trị được chọn
+                comboboxTang.DisplayMemberPath = "SoTang";
+                comboboxTang.SelectedValuePath = "SoTang";
             }
             else
             {
