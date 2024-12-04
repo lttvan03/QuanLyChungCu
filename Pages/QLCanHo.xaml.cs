@@ -22,6 +22,8 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLCanHo : Page
     {
+                private string currentUserQH;
+        private string currentUserID;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -45,7 +47,6 @@ namespace QuanLyChungCu.Pages
         private void LoadDataGrid()
         {
             dGrid = Connect.DataTransport("SELECT * FROM CanHo INNER JOIN NguoiQuanLy ON CanHo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy");
-
 
             dGrid.Columns.Add("SoXe", typeof(string));
 
@@ -150,15 +151,13 @@ namespace QuanLyChungCu.Pages
 
         private void LoadComboBoxTang()
         {
-            // Lấy danh sách tầng từ bảng Tang
             DataTable dt_tang = Connect.DataTransport("SELECT SoTang FROM Tang");
 
             if (dt_tang.Rows.Count > 0)
             {
-                // Gán dữ liệu vào ComboBox
                 comboboxTang.ItemsSource = dt_tang.DefaultView;
-                comboboxTang.DisplayMemberPath = "SoTang"; // Tên cột hiển thị
-                comboboxTang.SelectedValuePath = "SoTang"; // Giá trị được chọn
+                comboboxTang.DisplayMemberPath = "SoTang";
+                comboboxTang.SelectedValuePath = "SoTang";
             }
             else
             {
@@ -341,21 +340,13 @@ namespace QuanLyChungCu.Pages
                 if (selectedRow != null)
                 {
                     string id = selectedRow["SoCanHo"].ToString();
-                    if (MessageBox.Show("Bạn có muốn xóa căn hộ có số " + id, "Thông báo",
+                    if (MessageBox.Show("Bạn có muốn xóa căn hộ có số là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        sSQL = $"DELETE FROM CanHo WHERE SoCanHo = '{txtSoCanHo.Text}'";
+                        sSQL = sSQL = $"DELETE FROM CanHo WHERE SoCanHo = '{txtSoCanHo.Text}'";
                         // Thực thi câu lệnh xóa
                         int result = Connect.DataExecution1(sSQL);
-                        if (result == 1)
-                        {
-                            MessageBox.Show("Xóa thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                            LoadDataGrid(); // Cập nhật lại DataGrid
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
+                        LoadDataGrid(); // Cập nhật lại DataGrid
                     }
                 }
             }

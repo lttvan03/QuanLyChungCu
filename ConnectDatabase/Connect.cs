@@ -12,7 +12,7 @@ namespace QuanLyChungCu.ConnectDatabase
 {
     class Connect
     {
-        private static string sConnect = @"Data Source=QUỐCANH;Initial Catalog=QLChungCu;User ID=sa;Password=123;Encrypt=False;TrustServerCertificate=False";
+        private static string sConnect = @"Data Source=LTTVAN; Initial Catalog=QLChungCu;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False";
         private static SqlConnection con = null;
 
         public Connect() {
