@@ -14,7 +14,7 @@ namespace QuanLyChungCu
 
         // Cấu hình kết nối cơ sở dữ liệu (có thể sử dụng connection string từ appsettings.json)
         protected override void OnConfiguring(DbContextOptionsBuilder options) {
-            options.UseSqlServer("Data Source=LTTVAN; Initial Catalog=QLChungCu;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False");
+            options.UseSqlServer("Data Source=QUỐCANH;Initial Catalog=QLChungCu;User ID=sa;Password=123;Encrypt=False;TrustServerCertificate=False");
         }
     }
 }
