@@ -42,7 +42,6 @@ namespace QuanLyChungCu
                         Application.Current.Properties["UserRole"] = user.QuyenHan;
                         Application.Current.Properties["ID"] = user.IDTaiKhoan;
                         Application.Current.Properties["MK"] = user.MatKhau;
-                        // Truy vấn thông tin cư dân
                         MainWindow maindWin = new MainWindow();
                         maindWin.Show();
                         this.Hide();

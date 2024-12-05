@@ -22,7 +22,7 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLCanHo : Page
     {
-                private string currentUserQH;
+        private string currentUserQH;
         private string currentUserID;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;

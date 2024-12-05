@@ -76,10 +76,10 @@
                                         MinWidth="100"
                                         Width="*"
                                         Binding="{Binding SoTien}"></DataGridTextColumn>
-                            <DataGridTextColumn  Header="Hạn đóng" 
+                            <DataGridTextColumn  Header="Hạn thanh toán" 
                                         MinWidth="100"
                                         Width="*"
-                                        Binding="{Binding HanDong}"></DataGridTextColumn>
+                                        Binding="{Binding HanDong, StringFormat='{}{0:dd/MM/yyyy}'}"></DataGridTextColumn>
                             <DataGridTextColumn  Header="Trạng thái" 
                                         MinWidth="100"
                                         Width="*"

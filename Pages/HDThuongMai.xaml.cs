@@ -1,5 +1,7 @@
-﻿using System;
+﻿using QuanLyChungCu.ConnectDatabase;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +22,17 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class HDThuongMai : Page
     {
+        private DataTable dGrid = new DataTable();
+
         public HDThuongMai() {
             InitializeComponent();
+            LoadDataGrid();
+
         }
+        private void LoadDataGrid() {
+            dGrid = Connect.DataTransport("SELECT * FROM HoaDonTM INNER JOIN MatBangThuongMai ON MatBangThuongMai.IDMBTM = HoaDonTM.IDMBTM");
+            dtview.ItemsSource = dGrid.DefaultView;
+        }
+
     }
 }
