@@ -58,7 +58,7 @@ namespace QuanLyChungCu.Pages
         {
             if (currentUserQH == "Cư dân")
             {
-                string sSQL = $"SELECT * FROM CuDan INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE IDCuDan = '{currentUserID}'";
+                string sSQL = $"SELECT * FROM CuDan INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE SoCanHo = '{currentUserID}'";
                 dGrid = Connect.DataTransport(sSQL);
                 btnThem.Visibility = Visibility.Collapsed;
                 btnSua.Visibility = Visibility.Collapsed;

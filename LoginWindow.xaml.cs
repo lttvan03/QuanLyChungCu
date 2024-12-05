@@ -30,43 +30,6 @@ namespace QuanLyChungCu
         private void Window_Closed(object sender, EventArgs e) {
             Application.Current.Shutdown();
         }
-
-        //public void btnLogin_Click(object sender, RoutedEventArgs e) {
-        //    try {
-        //        if (!AllowLogin()) {
-        //            return;
-        //        }
-
-        //        DataTable dataTable = ConnectDatabase.Connect.DataTransport("select * from TaiKhoan");
-        //        bool isUserFound = false;
-        //        for (int i = 0; i < dataTable.Rows.Count; i++) {
-        //            if (txtUserName.Text.Trim().ToLower() == Convert.ToString(dataTable.Rows[i]["IDTaiKhoan"]).ToLower()) {
-        //                isUserFound = true;
-        //                DataRow user = dataTable.Rows[i];
-        //                if (txtPassword.Password.Trim() == Convert.ToString(dataTable.Rows[i]["MatKhau"])) {
-        //                    MessageBox.Show("Đăng nhập thành công", "Chúc mừng", MessageBoxButton.OK, MessageBoxImage.Information);
-        //                    MainWindow maindWin = new MainWindow();
-        //                    maindWin.Show();
-        //                    this.Hide();
-
-        //                    maindWin.Logout += mainWindow_Logout;
-        //                    return;
-        //                }
-        //                else {
-        //                    MessageBox.Show("Mật khẩu bạn nhập không chính xác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //                    return;
-        //                }
-        //            }
-        //        }
-
-        //        if (!isUserFound) {
-        //            MessageBox.Show("Tài khoản bạn nhập không chính xác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        }
-        //    }
-        //    catch (Exception ex) {
-        //        MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //    }
-        //}
         public void btnLogin_Click(object sender, RoutedEventArgs e) {
             if (!AllowLogin()) {
                 return;
@@ -79,7 +42,7 @@ namespace QuanLyChungCu
                         Application.Current.Properties["UserRole"] = user.QuyenHan;
                         Application.Current.Properties["ID"] = user.IDTaiKhoan;
                         Application.Current.Properties["MK"] = user.MatKhau;
-                        string role = user.QuyenHan;
+                        // Truy vấn thông tin cư dân
                         MainWindow maindWin = new MainWindow();
                         maindWin.Show();
                         this.Hide();

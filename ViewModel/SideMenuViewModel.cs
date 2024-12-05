@@ -52,7 +52,7 @@ namespace QuanLyChungCu.ViewModel
 
                     //MainMenu Button
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Khu vực thương mại", NavigateToPage = "KVThuongMai", RequiredRole = new List<string> { "Quản lý", "Admin" }, SubMenuList = null },
-
+                    new MenuItemsData() {PathData = (PathGeometry) dict["icon_building"], MenuText = "Vật tư", NavigateToPage = "QLVatTu", RequiredRole = new List<string> { "Quản lý", "Admin" }, SubMenuList = null },
                     new MenuItemsData() {PathData = (PathGeometry) dict["icon_cash"], MenuText = "Tài chính", NavigateToPage = "HDCuDan", RequiredRole = new List<string> { "Cư dân", "Quản lý", "Admin" },
                     //Submenu button
                         SubMenuList = new List<SubMenuItemsData> {
