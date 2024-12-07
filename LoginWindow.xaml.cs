@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyChungCu.ConnectDatabase;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -42,6 +43,16 @@ namespace QuanLyChungCu
                         Application.Current.Properties["UserRole"] = user.QuyenHan;
                         Application.Current.Properties["ID"] = user.IDTaiKhoan;
                         Application.Current.Properties["MK"] = user.MatKhau;
+                        if (user.QuyenHan == "Cư dân") {
+                            // Lấy thông tin căn hộ của cư dân từ bảng CuDan
+                            var cuDan = dbContext.CuDan
+                                                 .Where(c => c.IDCuDan == user.IDTaiKhoan)  // Lấy cư dân theo IDCudan
+                                                 .FirstOrDefault();
+
+                            if (cuDan != null) {
+                                Application.Current.Properties["SoCanHo"] = cuDan.SoCanHo;
+                            }
+                        }
                         MainWindow maindWin = new MainWindow();
                         maindWin.Show();
                         this.Hide();

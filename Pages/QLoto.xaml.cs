@@ -29,6 +29,8 @@ namespace QuanLyChungCu.Pages
     {
         private string currentUserQH;
         private string currentUserID;
+        private string soCanHo;
+
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -45,6 +47,8 @@ namespace QuanLyChungCu.Pages
         private void Load() {
             currentUserID = GetCurrentUserID();
             currentUserQH = GetCurrentUserQH();
+            soCanHo = GetCurrentSoCanHo();
+
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxCuDan();
@@ -56,10 +60,13 @@ namespace QuanLyChungCu.Pages
         private string GetCurrentUserQH() {
             return App.Current.Properties["UserRole"]?.ToString();
         }
+        private string GetCurrentSoCanHo() {
+            return App.Current.Properties["SoCanHo"]?.ToString();
+        }
 
         private void LoadDataGrid() {
             if (currentUserQH == "Cư dân") {
-                string sSQL = $"SELECT * FROM XeOTo INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE XeOTo.IDCuDan = '{currentUserID}'";
+                string sSQL = $"SELECT * FROM XeOTo INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE CuDan.SoCanHo = '{soCanHo}'";
                 dGrid = Connect.DataTransport(sSQL);
                 btnThem.Visibility = Visibility.Collapsed;
                 btnSua.Visibility = Visibility.Collapsed;
@@ -114,15 +121,27 @@ namespace QuanLyChungCu.Pages
         private void btnTimKiem_Click(object sender, RoutedEventArgs e) {
             if (!string.IsNullOrEmpty(txtTimKiem.Text)) {
                 string searchText = txtTimKiem.Text.ToLower().Trim();
-
-                string sSQL = $"SELECT * FROM XeOTo " +
-                    $"INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan " +
-                    $"INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
-                    $"WHERE LOWER(BienSoXe) LIKE LOWER('%{searchText}%') OR LOWER(IDXeOTo) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(LoaiXe) LIKE LOWER(N'%{searchText}%') OR LOWER(MauXe) LIKE LOWER(N'%{searchText}%') " +
-                    $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
-                    $"OR LOWER(XeOTo.IDCuDan) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(XeOTo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
+                string sSQL = "";
+                if(currentUserQH == "Cư dân") {
+                    sSQL = $"SELECT * FROM XeOTo " +
+                            $"INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan " +
+                            $"INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                            $"WHERE (LOWER(BienSoXe) LIKE LOWER('%{searchText}%') OR LOWER(IDXeOTo) LIKE LOWER('%{searchText}%') " +
+                            $"OR LOWER(LoaiXe) LIKE LOWER(N'%{searchText}%') OR LOWER(MauXe) LIKE LOWER(N'%{searchText}%') " +
+                            $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                            $"OR LOWER(XeOTo.IDCuDan) LIKE LOWER('%{searchText}%') " +
+                            $"OR LOWER(XeOTo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%'))" +
+                            $"AND CuDan.SoCanHo = {soCanHo}";
+                } else {
+                    sSQL = $"SELECT * FROM XeOTo " +
+                        $"INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan " +
+                        $"INNER JOIN NguoiQuanLy ON XeOTo.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                        $"WHERE LOWER(BienSoXe) LIKE LOWER('%{searchText}%') OR LOWER(IDXeOTo) LIKE LOWER('%{searchText}%') " +
+                        $"OR LOWER(LoaiXe) LIKE LOWER(N'%{searchText}%') OR LOWER(MauXe) LIKE LOWER(N'%{searchText}%') " +
+                        $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                        $"OR LOWER(XeOTo.IDCuDan) LIKE LOWER('%{searchText}%') " +
+                        $"OR LOWER(XeOTo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
+                }
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;

@@ -24,6 +24,7 @@ namespace QuanLyChungCu.Pages
     {
         private string currentUserQH;
         private string currentUserID;
+        private string soCanHo;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -36,6 +37,8 @@ namespace QuanLyChungCu.Pages
         {
             currentUserID = GetCurrentUserID();
             currentUserQH = GetCurrentUserQH();
+            soCanHo = GetCurrentSoCanHo();
+
             InitializeComponent();
             Load();
         }
@@ -47,6 +50,10 @@ namespace QuanLyChungCu.Pages
         {
             return App.Current.Properties["UserRole"]?.ToString();
         }
+        private string GetCurrentSoCanHo() {
+            return App.Current.Properties["SoCanHo"]?.ToString();
+        }
+
         private void Load()
         {
             LoadStatus();
@@ -58,7 +65,7 @@ namespace QuanLyChungCu.Pages
         {
             if (currentUserQH == "Cư dân")
             {
-                string sSQL = $"SELECT * FROM CuDan INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE SoCanHo = '{currentUserID}'";
+                string sSQL = $"SELECT * FROM CuDan INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE SoCanHo = '{soCanHo}'";
                 dGrid = Connect.DataTransport(sSQL);
                 btnThem.Visibility = Visibility.Collapsed;
                 btnSua.Visibility = Visibility.Collapsed;
@@ -127,8 +134,21 @@ namespace QuanLyChungCu.Pages
             if (!string.IsNullOrEmpty(txtTimKiem.Text))
             {
                 string searchText = txtTimKiem.Text.ToLower().Trim();
-
-                string sSQL = $"SELECT * FROM CuDan " +
+                string sSQL = "";
+                if (currentUserQH == "Cư dân") {
+                    sSQL = $"SELECT * FROM CuDan " +
+                               $"INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                               $"WHERE (LOWER(CuDan.IDCuDan) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.TenCuDan) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.GiayToTuyThan) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.SoCanHo) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.IDNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
+                               $"OR CONVERT(VARCHAR, CuDan.NgaySinh, 103) LIKE '%{searchText}%' " +
+                               $"OR LOWER(CuDan.GioiTinh) LIKE LOWER('%{searchText}%')) " +
+                               $"AND CuDan.SoCanHo = '{soCanHo}'";
+                } else {
+                    sSQL = $"SELECT * FROM CuDan " +
                                $"INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
                                $"WHERE LOWER(CuDan.IDCuDan) LIKE LOWER('%{searchText}%') " +
                                $"OR LOWER(CuDan.TenCuDan) LIKE LOWER('%{searchText}%') " +
@@ -138,6 +158,7 @@ namespace QuanLyChungCu.Pages
                                $"OR LOWER(CuDan.IDNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
                                $"OR CONVERT(VARCHAR, CuDan.NgaySinh, 103) LIKE '%{searchText}%' " +
                                $"OR LOWER(CuDan.GioiTinh) LIKE LOWER('%{searchText}%')";
+                }
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;
