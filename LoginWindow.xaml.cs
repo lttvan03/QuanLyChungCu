@@ -63,6 +63,8 @@ namespace QuanLyChungCu
                     else {
                         MessageBox.Show("Mật khẩu bạn nhập không chính xác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                } else {
+                    MessageBox.Show("Tên đăng nhập không chính xác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }                
             } else {
                 MessageBox.Show("Tài khoản bạn nhập không chính xác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);

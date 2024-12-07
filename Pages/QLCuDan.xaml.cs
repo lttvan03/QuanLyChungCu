@@ -139,25 +139,25 @@ namespace QuanLyChungCu.Pages
                     sSQL = $"SELECT * FROM CuDan " +
                                $"INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
                                $"WHERE (LOWER(CuDan.IDCuDan) LIKE LOWER('%{searchText}%') " +
-                               $"OR LOWER(CuDan.TenCuDan) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') " +
                                $"OR LOWER(CuDan.GiayToTuyThan) LIKE LOWER('%{searchText}%') " +
                                $"OR LOWER(CuDan.SoCanHo) LIKE LOWER('%{searchText}%') " +
-                               $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
                                $"OR LOWER(CuDan.IDNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
                                $"OR CONVERT(VARCHAR, CuDan.NgaySinh, 103) LIKE '%{searchText}%' " +
-                               $"OR LOWER(CuDan.GioiTinh) LIKE LOWER('%{searchText}%')) " +
+                               $"OR LOWER(CuDan.GioiTinh) LIKE LOWER(N'%{searchText}%')) " +
                                $"AND CuDan.SoCanHo = '{soCanHo}'";
                 } else {
                     sSQL = $"SELECT * FROM CuDan " +
                                $"INNER JOIN NguoiQuanLy ON CuDan.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
                                $"WHERE LOWER(CuDan.IDCuDan) LIKE LOWER('%{searchText}%') " +
-                               $"OR LOWER(CuDan.TenCuDan) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') " +
                                $"OR LOWER(CuDan.GiayToTuyThan) LIKE LOWER('%{searchText}%') " +
                                $"OR LOWER(CuDan.SoCanHo) LIKE LOWER('%{searchText}%') " +
-                               $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
+                               $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
                                $"OR LOWER(CuDan.IDNguoiQuanLy) LIKE LOWER('%{searchText}%') " +
                                $"OR CONVERT(VARCHAR, CuDan.NgaySinh, 103) LIKE '%{searchText}%' " +
-                               $"OR LOWER(CuDan.GioiTinh) LIKE LOWER('%{searchText}%')";
+                               $"OR LOWER(CuDan.GioiTinh) LIKE LOWER(N'%{searchText}%')";
                 }
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);

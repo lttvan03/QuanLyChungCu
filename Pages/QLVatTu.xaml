@@ -87,7 +87,7 @@
         </Border>
         <!-- IsOpen="True" -->
         <Grid x:Name="overlayGrid" Panel.ZIndex="1" Width="auto" Height="auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Opacity="0.5" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Popup x:Name="popup" Panel.ZIndex="1" Placement="Center" HorizontalAlignment="Center" IsOpen="False" StaysOpen="True" VerticalAlignment="Center" Width="640" Height="auto">
+        <Popup x:Name="popup" Placement="Center" IsOpen="False" StaysOpen="True" HorizontalAlignment="Center" VerticalAlignment="Center" Width="640" Height="auto">
             <Border CornerRadius="8" Background="White" Width="640" Height="auto" Padding="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -105,18 +105,18 @@
                     <TextBlock Text="Thông tin vật tư" FontSize="18" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 8 0 0"
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10" IsReadOnly="True"
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 10 10" IsReadOnly="True"
                                                    x:Name="txtIDVatTu" 
                                                    materialDesign:HintAssist.Hint="ID vật tư (Mặc định)"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1" Margin="10 0 16 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtTenVatTu"
                                                    materialDesign:HintAssist.Hint="Tên vật tư (bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
                                                    x:Name="intSoLuong"
                                                    materialDesign:HintAssist.Hint="Số lượng"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
