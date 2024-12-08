@@ -38,7 +38,7 @@ namespace QuanLyChungCu.Pages
             Load();
         }
 
-    private void Load() {
+        private void Load() {
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxQuyen();
@@ -211,6 +211,7 @@ namespace QuanLyChungCu.Pages
         }
         private void btnLuu_Click(object sender, RoutedEventArgs e) {            
             string sSQL = "";
+
             switch (_trangThaiHienTai) {
                 case TrangThaiHienTai.Sua:
                     sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhau.Text}' WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
