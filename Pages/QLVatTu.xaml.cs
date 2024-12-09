@@ -173,6 +173,13 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
+            else if (intSoLuong.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập số lượng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuanLy.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
             else if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -181,8 +188,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else
-            {
+            else {
                 return true;
             }
         }
