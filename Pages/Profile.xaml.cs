@@ -124,12 +124,20 @@ namespace QuanLyChungCu.Pages
             // Khi CheckBox được tích, hiển thị grMatKhau
             grMatKhau.Visibility = Visibility.Visible;
             btnCapNhat.Visibility = Visibility.Visible;
+            txtMatKhau.Password = "";
+            txtMatKhauNew.Password = "";
+            txtNhapLaiMK.Password = "";
+
         }
 
         private void cbPass_Unchecked(object sender, RoutedEventArgs e) {
             // Khi CheckBox không được tích, ẩn grMatKhau
             grMatKhau.Visibility = Visibility.Collapsed;
             btnCapNhat.Visibility = Visibility.Collapsed;
+
+            txtMatKhau.Password = "";
+            txtMatKhauNew.Password = "";
+            txtNhapLaiMK.Password = ""; 
         }
 
         private void btnAvatar_Click(object sender, RoutedEventArgs e) {
@@ -208,6 +216,10 @@ namespace QuanLyChungCu.Pages
             string sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhauNew.Password}' WHERE IDTaiKhoan = '{currentUserID}' ";
             Connect.DataExecution1(sSQL);
             MessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            txtMatKhau.Password = "";
+            txtMatKhauNew.Password = "";
+            txtNhapLaiMK.Password = "";
+
             LoadData();
         }
     }
