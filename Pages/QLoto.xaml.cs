@@ -131,7 +131,7 @@ namespace QuanLyChungCu.Pages
                             $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
                             $"OR LOWER(XeOTo.IDCuDan) LIKE LOWER('%{searchText}%') " +
                             $"OR LOWER(XeOTo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%'))" +
-                            $"AND CuDan.SoCanHo = {soCanHo}";
+                            $"AND CuDan.SoCanHo = '{soCanHo}'";
                 } else {
                     sSQL = $"SELECT * FROM XeOTo " +
                         $"INNER JOIN CuDan ON XeOTo.IDCuDan = CuDan.IDCuDan " +
