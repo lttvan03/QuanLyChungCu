@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QuanLyChungCu.ConnectDatabase;
 using System;
-=======
-﻿using System;
->>>>>>> 616554e69bf410811900c45cd243b7d41b8c38fa
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -20,18 +16,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using static QuanLyChungCu.Pages.QLoto;
+using static QuanLyChungCu.Pages.KVThuongMai;
 using static QuanLyChungCu.MainWindow;
 using System.Diagnostics.Eventing.Reader;
 
 namespace QuanLyChungCu.Pages
 {
     /// <summary>
-    /// Interaction logic for QLoto.xaml
+    /// Interaction logic for KVThuongMai.xaml
     /// </summary>
     public partial class KVThuongMai : Page
     {
-<<<<<<< HEAD
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -108,11 +103,11 @@ namespace QuanLyChungCu.Pages
             {
                 string searchText = txtTimKiem.Text.ToLower().Trim();
 
-               string sSQL = $"SELECT * FROM MatBangThuongMai " +
-                    $"INNER JOIN NguoiQuanLy ON MatBangThuongMai.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
-                    $"WHERE LOWER(TenDonViThue) LIKE N'%{searchText}%' OR LOWER(TinhTrang) LIKE N'%{searchText}%' " +
-                    $"OR LOWER(GiaThue) LIKE '%{searchText}%' OR LOWER(DienTich) LIKE '%{searchText}%' " +
-                    $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE N'%{searchText}%'";
+                string sSQL = $"SELECT * FROM MatBangThuongMai " +
+                     $"INNER JOIN NguoiQuanLy ON MatBangThuongMai.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                     $"WHERE LOWER(TenDonViThue) LIKE N'%{searchText}%' OR LOWER(TinhTrang) LIKE N'%{searchText}%' " +
+                     $"OR LOWER(GiaThue) LIKE '%{searchText}%' OR LOWER(DienTich) LIKE '%{searchText}%' " +
+                     $"OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE N'%{searchText}%'";
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;
@@ -189,7 +184,7 @@ namespace QuanLyChungCu.Pages
                 popup.IsOpen = true; // Hiển thị lại Popup nếu cần
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
-            }         
+            }
             else if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -282,11 +277,5 @@ namespace QuanLyChungCu.Pages
                 MessageBox.Show("Vui lòng chọn thông tin cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-=======
-        public KVThuongMai() {
-            InitializeComponent();
-        }
->>>>>>> 616554e69bf410811900c45cd243b7d41b8c38fa
     }
 }

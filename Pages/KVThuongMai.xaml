@@ -5,10 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuanLyChungCu.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="KVThuongMai">
+      
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
-<<<<<<< HEAD
+      Background="#f1f1f1"
+
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="QLoto">
+
     <Grid Margin="10 5 10 10">
 
         <Grid.RowDefinitions>
@@ -24,7 +28,7 @@
                                     Padding="6" Height="32"
                                     VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
                     </Border>
-                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0"></Button>
+                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0" Click="btnTimKiem_Click" ></Button>
                 </StackPanel>
             </Grid>
         </Border>
@@ -155,13 +159,12 @@
                     </materialDesign:AutoSuggestBox>
                     <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 0 8">
                         <Button x:Name="btnLuu"  Content="Lưu" Width="100" Click="btnLuu_Click"/>
-                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" Click="btnHuy_Click" />                    </StackPanel>
+                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" Click="btnHuy_Click" />
+                    </StackPanel>
                 </Grid>
             </Border>
         </Popup>
-=======
-    <Grid>
-        
->>>>>>> 616554e69bf410811900c45cd243b7d41b8c38fa
     </Grid>
 </Page>
+
+
