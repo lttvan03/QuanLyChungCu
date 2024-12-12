@@ -1,5 +1,4 @@
-using MaterialDesignThemes.Wpf;
-using QuanLyChungCu.ConnectDatabase;
+﻿using QuanLyChungCu.ConnectDatabase;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,16 +28,18 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
+
         public KVThuongMai() {
             InitializeComponent();
             Load();
         }
-
         private void Load() {
             LoadStatus();
             LoadDataGrid();
+            LoadComboBoxTrangThai();
             LoadComboBoxQuanLy();
         }
         private void LoadDataGrid() {
@@ -66,7 +67,7 @@ namespace QuanLyChungCu.Pages
                     txtDienTich.Text = "";
                     txtTenDonViThue.Text = "";
                     txtGiaThue.Text = "";
-                    txtTinhTrang.Text = "";
+                    comboboxTrangThai.SelectedValue = "";
                     comboboxQuanLy.SelectedValue = "";
                     txtQuanLy.Text = "";
 
@@ -80,7 +81,22 @@ namespace QuanLyChungCu.Pages
                     txtDienTich.Text = row["DienTich"].ToString();
                     txtTenDonViThue.Text = row["TenDonViThue"].ToString();
                     txtGiaThue.Text = row["GiaThue"].ToString();
-                    txtTinhTrang.Text = row["TinhTrang"].ToString();
+                    comboboxTrangThai.SelectedValue = row["TinhTrang"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
+
+                    txtIDMBTM.Text = row["IDMBTM"].ToString();
+                    txtDienTich.Text = row["DienTich"].ToString();
+                    txtTenDonViThue.Text = row["TenDonViThue"].ToString();
+                    txtGiaThue.Text = row["GiaThue"].ToString();
+                    comboboxTrangThai.SelectedValue = row["TinhTrang"].ToString();
                     comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
                     txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
 
@@ -104,6 +120,16 @@ namespace QuanLyChungCu.Pages
                 LoadDataGrid();
             }
         }
+        private void LoadComboBoxTrangThai() {
+            DataTable dt_cudan = new DataTable();
+            dt_cudan.Columns.Add("TrangThai", typeof(string));
+            dt_cudan.Rows.Add("Chưa cho thuê");
+            dt_cudan.Rows.Add("Đang cho thuê");
+            comboboxTrangThai.ItemsSource = dt_cudan.DefaultView;
+            comboboxTrangThai.DisplayMemberPath = "TrangThai"; // Tên cột hiển thị
+            comboboxTrangThai.SelectedValuePath = "TrangThai"; // Giá trị được chọn
+        }
+
         private void dtview_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (dtview.SelectedItem != null) {
                 DataRowView row = (DataRowView)dtview.SelectedItem;
@@ -112,7 +138,7 @@ namespace QuanLyChungCu.Pages
                 txtDienTich.Text = row["DienTich"].ToString();
                 txtTenDonViThue.Text = row["TenDonViThue"].ToString();
                 txtGiaThue.Text = row["GiaThue"].ToString();
-                txtTinhTrang.Text = row["TinhTrang"].ToString();
+                comboboxTrangThai.SelectedValue = row["TinhTrang"].ToString();
                 comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
                 txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
             }
@@ -153,23 +179,36 @@ namespace QuanLyChungCu.Pages
             popup.IsOpen = false; // Tạm thời ẩn Popup
             overlayGrid.Visibility = Visibility.Collapsed;
 
-            if (txtTinhTrang.Text.Trim() == "") {
+            if (txtDienTich.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập chọn diện tích.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuanLy.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            if (txtGiaThue.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập giá tiền.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuanLy.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
+            if (comboboxTrangThai.SelectedItem == null) {
                 MessageBox.Show("Bạn chưa nhập tình trạng mặt bằng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                txtTinhTrang.Focus();
                 popup.IsOpen = true; // Hiển thị lại Popup nếu cần
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtQuanLy.Text.Trim() == "") {
+            if (txtQuanLy.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else {
-                return true;
-            }
+           
+            return true;
+            
         }
         private void btnLuu_Click(object sender, RoutedEventArgs e) {
             if (!AllowSave()) {
@@ -181,7 +220,7 @@ namespace QuanLyChungCu.Pages
             string sSQL = "";
             switch (_trangThaiHienTai) {
                 case TrangThaiHienTai.Sua:
-                    sSQL = $"UPDATE MatBangThuongMai SET  TinhTrang = N'{txtTinhTrang.Text}', " +
+                    sSQL = $"UPDATE MatBangThuongMai SET  TinhTrang = N'{((DataRowView)comboboxTrangThai.SelectedItem)["TrangThai"].ToString()}', " +
                            $"DienTich = '{txtDienTich.Text}', " +
                            $"GiaThue = '{txtGiaThue.Text}' , " +
                            $"TenDonViThue = N'{txtTenDonViThue.Text}', " +
@@ -194,7 +233,7 @@ namespace QuanLyChungCu.Pages
                     break;
                 case TrangThaiHienTai.Them:
                     sSQL = $"INSERT INTO MatBangThuongMai(DienTich, TenDonViThue, GiaThue, TinhTrang, IDNguoiQuanLy) VALUES('{txtDienTich.Text}', N'{txtTenDonViThue.Text}', {txtGiaThue.Text}, " +
-                           $"N'{txtTinhTrang.Text}', '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}')";
+                           $"N'{((DataRowView)comboboxTrangThai.SelectedItem)["TrangThai"].ToString()}', '{((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"]}')";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();
@@ -237,6 +276,17 @@ namespace QuanLyChungCu.Pages
                 // Hiển thị thông báo khi không có gì được chọn
                 MessageBox.Show("Vui lòng chọn thông tin cần xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
         }
     }
 }

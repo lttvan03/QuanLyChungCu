@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuanLyChungCu.Pages"
       mc:Ignorable="d" 
-
+      
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
       Background="#f1f1f1"
@@ -45,13 +45,14 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="16 8 0 16" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Khu vực thương mại" VerticalAlignment="Center" HorizontalAlignment="Left"
                            FontSize="18" Margin="10 0 0 0"></TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click"></Button>
+                        <Button x:Name="btnXem" Content="Xem" Width="100" Margin="0 0 10 0" Click="btnXem_Click"></Button>
+                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="0 0 10 0" Click="btnThem_Click"></Button>
                         <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0" Click="btnSua_Click" ></Button>
                         <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0" Click="btnXoa_Click"></Button>
                     </StackPanel>
@@ -138,12 +139,13 @@
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="1"  Margin="10 0 16 10"
-                                                   x:Name="txtTinhTrang"
-                                                   materialDesign:HintAssist.Hint="Tình trạng (Bắt buộc)"
-                                                   materialDesign:TextFieldAssist.HasClearButton="True"
-                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
-                    </materialDesign:AutoSuggestBox>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Margin="10 0 16 10"
+                              x:Name="comboboxTrangThai"
+                              DisplayMemberPath="TrangThai"
+                              SelectedValuePath="TrangThai"
+                              materialDesign:HintAssist.Hint="Trạng thái (Bắt buộc)"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    </ComboBox>
                     <ComboBox Grid.Row="4" Grid.Column="0" Margin="16 0 10 10"
                               x:Name="comboboxQuanLy"
                               DisplayMemberPath="IDCuDan"
@@ -165,6 +167,5 @@
             </Border>
         </Popup>
     </Grid>
+
 </Page>
-
-
