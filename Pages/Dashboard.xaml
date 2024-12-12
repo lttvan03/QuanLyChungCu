@@ -152,7 +152,7 @@
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <materialDesign:PackIcon Kind="Home" Width="80" Height="80" Foreground="White" Margin="0 10 0 10"/>
+                        <materialDesign:PackIcon Kind="Bicycle" Width="80" Height="80" Foreground="White" Margin="0 10 0 10"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1" Background="#029452">
