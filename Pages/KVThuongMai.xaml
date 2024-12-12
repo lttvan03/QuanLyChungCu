@@ -49,9 +49,9 @@
                     <TextBlock Grid.Column="0" Text="Khu vực thương mại" VerticalAlignment="Center" HorizontalAlignment="Left"
                            FontSize="18" Margin="10 0 0 0"></TextBlock>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
-                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0"></Button>
-                        <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0"  ></Button>
-                        <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0"></Button>
+                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click"></Button>
+                        <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0" Click="btnSua_Click" ></Button>
+                        <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0" Click="btnXoa_Click"></Button>
                     </StackPanel>
 
                 </Grid>
@@ -61,25 +61,27 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" 
                                         Binding="{Binding IDMBTM}"
-                                        MinWidth="80"
-                                        MaxWidth="100"
+                                        MinWidth="50"
+                                        MaxWidth="80"
                                         Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Diện tích" 
                                         MaxWidth="150"
                                         MinWidth="100"
                                         Width="*"
-                                        Binding="{Binding LoaiXe}"></DataGridTextColumn>
-                            <DataGridTextColumn  Header="Màu xe"
+                                        Binding="{Binding DienTich}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Đơn vị thuê"
                                         MaxWidth="150"
                                         MinWidth="100"
                                         Width="*"
-                                        Binding="{Binding MauXe}"></DataGridTextColumn>
-                            <DataGridTextColumn  Header="Cư dân" 
+                                        Binding="{Binding TenDonViThue}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Giá thuê" 
                                         MinWidth="100"
                                         Width="*"
-                                        Binding="{Binding TenCuDan}"></DataGridTextColumn>
-                            <DataGridTextColumn  Header="ID Cư dân" Visibility="Collapsed"
-                                        Binding="{Binding IDCuDan}"></DataGridTextColumn>
+                                        Binding="{Binding GiaThue}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Tình trạng"
+                                        MinWidth="100"
+                                        Width="*"
+                                        Binding="{Binding TinhTrang}"></DataGridTextColumn>
                             <DataGridTextColumn  Header="Người quản lý" 
                                         MinWidth="100"
                                         Width="*"
@@ -108,36 +110,36 @@
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="50"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Thông tin xe đạp" FontSize="18" FontWeight="Bold"
+                    <TextBlock Text="Thông tin mặt bằng" FontSize="18" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 8 0 0"
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 16 10" IsReadOnly="True"
-                                                   x:Name="txtIDXeDap" 
-                                                   materialDesign:HintAssist.Hint="ID xe đạp (Mặc định)" 
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10" IsReadOnly="True"
+                                                   x:Name="txtIDMBTM" 
+                                                   materialDesign:HintAssist.Hint="ID MBTM (Mặc định)" 
+                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
+                    </materialDesign:AutoSuggestBox>
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1"  Margin="10 0 16 10"
+                                                   x:Name="txtDienTich"
+                                                   materialDesign:HintAssist.Hint="Diện tích"
+                                                   materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
-                                                   x:Name="txtLoaiXe"
-                                                   materialDesign:HintAssist.Hint="Loại xe (Bắt buộc)"
+                                                   x:Name="txtTenDonViThue"
+                                                   materialDesign:HintAssist.Hint="Tên đơn vị thuê"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1"  Margin="10 0 16 10"
-                                                   x:Name="txtMauXe"
-                                                   materialDesign:HintAssist.Hint="Màu xe (Bắt buộc)"
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
+                                                   x:Name="txtGiaThue"
+                                                   materialDesign:HintAssist.Hint="Giá thuê"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <ComboBox Grid.Row="3" Grid.Column="0" Margin="16 0 10 10"
-                              x:Name="comboboxCuDan"
-                              DisplayMemberPath="IDCuDan"
-                              SelectedValuePath="IDCuDan"
-                              materialDesign:HintAssist.Hint="ID Cư dân (Bắt buộc)"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                    </ComboBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="1"  Margin="10 0 16 10"
-                                                   x:Name="txtCuDan"                                                   
-                                                   materialDesign:HintAssist.Hint="Tên cư dân" IsReadOnly="True"
+                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0"  Margin="16 0 10 10"
+                                                   x:Name="txtTinhTrang"
+                                                   materialDesign:HintAssist.Hint="Tình trạng"
+                                                   materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <ComboBox Grid.Row="4" Grid.Column="0" Margin="16 0 10 10"
@@ -145,7 +147,8 @@
                               DisplayMemberPath="IDCuDan"
                               SelectedValuePath="IDCuDan"
                               materialDesign:HintAssist.Hint="ID Người quản lý (Bắt buộc)"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              SelectionChanged="comboboxQuanLy_SelectionChanged">
                     </ComboBox>
                     <materialDesign:AutoSuggestBox Grid.Row="4" Grid.Column="1"  Margin="10 0 16 10"
                                                    x:Name="txtQuanLy"
@@ -153,9 +156,8 @@
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
                     <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 0 8">
-                        <Button x:Name="btnLuu"  Content="Lưu" Width="100" />
-                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" />
-                    </StackPanel>
+                        <Button x:Name="btnLuu"  Content="Lưu" Width="100" Click="btnLuu_Click"/>
+                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" Click="btnHuy_Click" />                    </StackPanel>
                 </Grid>
             </Border>
         </Popup>
