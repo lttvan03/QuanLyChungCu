@@ -29,7 +29,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
 
         public HDThuongMai() {
@@ -72,6 +73,19 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+
+                    txtIDHoaDon.Text = row["IDHoaDon"].ToString();
+                    floatSoTien.Text = row["SoTien"].ToString();
+                    dtHanThanhToan.SelectedDate = Convert.ToDateTime(row["HanThanhToan"]);
+                    comboboxTrangThai.SelectedValue = row["TrangThai"].ToString();
+                    comboboxMBTM.SelectedValue = row["IDMBTM"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
 
                     txtIDHoaDon.Text = row["IDHoaDon"].ToString();
                     floatSoTien.Text = row["SoTien"].ToString();
@@ -164,27 +178,25 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (dtHanThanhToan.SelectedDate == null) {
+            if (dtHanThanhToan.SelectedDate == null) {
                 MessageBox.Show("Bạn chưa nhập hạn thanh toán.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (comboboxTrangThai.SelectedItem == null) {
+            if (comboboxTrangThai.SelectedItem == null) {
                 MessageBox.Show("Bạn chưa chọn trạng thái hóa đơn.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (comboboxMBTM.SelectedItem == null) {
+            if (comboboxMBTM.SelectedItem == null) {
                 MessageBox.Show("Bạn chưa chọn mặt bằng thương mại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
-            }  else {
-                return true;
             }         
-
+            return true;
         }
         private void btnLuu_Click(object sender, RoutedEventArgs e) {
             if (!AllowSave()) {
@@ -268,5 +280,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }

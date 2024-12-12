@@ -32,7 +32,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
         public QLXeDap() {
             InitializeComponent();
@@ -97,6 +98,21 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+
+                    txtIDXeDap.Text = row["IDXeDap"].ToString();
+                    txtLoaiXe.Text = row["LoaiXe"].ToString();
+                    txtMauXe.Text = row["MauXe"].ToString();
+                    comboboxCuDan.SelectedValue = row["IDCuDan"].ToString();
+                    txtCuDan.Text = row["TenCuDan"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
 
                     txtIDXeDap.Text = row["IDXeDap"].ToString();
                     txtLoaiXe.Text = row["LoaiXe"].ToString();
@@ -227,30 +243,30 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtMauXe.Text.Trim() == "") {
+            if (txtMauXe.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa nhập màu xe.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxCuDan.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtCuDan.Text.Trim() == "") {
+            if (txtCuDan.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa chọn cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxCuDan.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtQuanLy.Text.Trim() == "") {
+            if (txtQuanLy.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else {
-                return true;
-            }
+
+            return true;
+
         }
         private void btnLuu_Click(object sender, RoutedEventArgs e) {
             if (!AllowSave()) {
@@ -320,5 +336,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }

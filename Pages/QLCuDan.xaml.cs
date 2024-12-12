@@ -31,7 +31,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
         public QLCuDan()
         {
@@ -81,6 +82,7 @@ namespace QuanLyChungCu.Pages
         private void LoadStatus()
         {
             DataRowView row = (DataRowView)dtview.SelectedItem;
+            string gioiTinh = "";
             switch (_trangThaiHienTai)
             {
                 case TrangThaiHienTai.Xem:
@@ -96,6 +98,7 @@ namespace QuanLyChungCu.Pages
                     txtIDCuDan.Text = "";
                     txtTenCuDan.Text = "";
                     dpNgaySinh.SelectedDate = null;
+                    gioiTinh = row["GioiTinh"].ToString();
                     comboboxGioiTinh.SelectedItem = "";
                     txtGiayToTuyThan.Text = "";
                     comboboxCanHo.SelectedValue = "";
@@ -111,7 +114,23 @@ namespace QuanLyChungCu.Pages
                     txtIDCuDan.Text = row["IDCuDan"].ToString();
                     txtTenCuDan.Text = row["TenCuDan"].ToString();
                     dpNgaySinh.SelectedDate = Convert.ToDateTime(row["NgaySinh"]);
-                    string gioiTinh = row["GioiTinh"].ToString();
+                    comboboxGioiTinh.SelectedItem = comboboxGioiTinh.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == gioiTinh);
+                    txtGiayToTuyThan.Text = row["GiayToTuyThan"].ToString();
+                    comboboxCanHo.SelectedValue = row["SoCanHo"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
+
+                    txtIDCuDan.Text = row["IDCuDan"].ToString();
+                    txtTenCuDan.Text = row["TenCuDan"].ToString();
+                    gioiTinh = row["GioiTinh"].ToString();
+                    dpNgaySinh.SelectedDate = Convert.ToDateTime(row["NgaySinh"]);
                     comboboxGioiTinh.SelectedItem = comboboxGioiTinh.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == gioiTinh);
                     txtGiayToTuyThan.Text = row["GiayToTuyThan"].ToString();
                     comboboxCanHo.SelectedValue = row["SoCanHo"].ToString();
@@ -269,7 +288,7 @@ namespace QuanLyChungCu.Pages
                 return false;
             }
 
-            else if (txtTenCuDan.Text.Trim() == "")
+             if (txtTenCuDan.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtTenCuDan.Focus();
@@ -277,7 +296,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtGiayToTuyThan.Text.Trim() == "")
+            if (txtGiayToTuyThan.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa nhập giấy tờ tùy thân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtGiayToTuyThan.Focus();
@@ -285,7 +304,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtQuanLy.Text.Trim() == "")
+            if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
@@ -293,10 +312,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
         private bool kiemtraIDCuDan(string IDCuDan)
         {
@@ -414,5 +430,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }

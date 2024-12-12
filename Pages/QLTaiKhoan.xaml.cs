@@ -30,7 +30,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
 
         public QLTaiKhoan() {
@@ -82,6 +83,25 @@ namespace QuanLyChungCu.Pages
                     overlayGrid.Opacity = 0.5;
                     txtNgaySinh.Visibility = Visibility.Collapsed;
                     txtSDT.Visibility = Visibility.Collapsed;
+
+                    txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
+                    txtMatKhau.Password = row["MatKhau"].ToString();
+                    txtTenNguoiDung.Text = row["TenNguoiDung"].ToString();
+                    comboboxQuyen.SelectedValue = row["QuyenHan"].ToString();
+
+                    txtIDTaiKhoan.IsReadOnly = true;
+                    comboboxQuyen.IsEnabled = true;
+                    txtTenNguoiDung.IsReadOnly = true;
+                    comboboxQuyen.IsReadOnly = false;
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    txtNgaySinh.Visibility = Visibility.Collapsed;
+                    txtSDT.Visibility = Visibility.Collapsed;
+                    btnLuu.Visibility = Visibility.Collapsed;
 
                     txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
                     txtMatKhau.Password = row["MatKhau"].ToString();
@@ -170,44 +190,44 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtTenNguoiDung.Text.Trim() == "") {
+            if (txtTenNguoiDung.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa nhập tên người dùng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuyen.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtNgaySinh.Text.Trim() == "") {
+            if (txtNgaySinh.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa chọn ngày sinh.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuyen.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtSDT.Text.Trim() == "") {
+            if (txtSDT.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa nhập số điện thoại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuyen.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtSDT.Text.Length != 10) { 
+            if (txtSDT.Text.Length != 10) { 
                 MessageBox.Show("Số điện thoại phải đủ 10 ký tự.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtSDT.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (comboboxQuyen.SelectedValue == "") {
+            if (comboboxQuyen.SelectedValue == "") {
                 MessageBox.Show("Bạn chưa chọn quyền.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuyen.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else {
-                return true;
-            }
+            
+            return true;
+
         }
         private bool kiemtraIDTaiKhoan(string IDTaiKhoan) {
             popup.IsOpen = false; // Tạm thời ẩn Popup
@@ -305,5 +325,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }

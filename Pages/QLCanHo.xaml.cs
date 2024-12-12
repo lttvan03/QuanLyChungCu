@@ -30,7 +30,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
         public QLCanHo()
         {
@@ -89,6 +90,22 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+
+                    txtSoCanHo.Text = row["SoCanHo"].ToString();
+                    comboboxTang.SelectedValue = row["SoTang"].ToString();
+                    txtSoCuDan.Text = row["SoCuDan"].ToString();
+                    txtSoOTo.Text = row["SoOTo"].ToString();
+                    txtSoXeMay.Text = row["SoXeMay"].ToString();
+                    txtSoXeDap.Text = row["SoXeDap"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
 
                     txtSoCanHo.Text = row["SoCanHo"].ToString();
                     comboboxTang.SelectedValue = row["SoTang"].ToString();
@@ -237,7 +254,7 @@ namespace QuanLyChungCu.Pages
                 return false;
             }
 
-            else if (txtSoCuDan.Text.Trim() == "")
+            if (txtSoCuDan.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa nhập số cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtSoCuDan.Focus();
@@ -245,7 +262,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtQuanLy.Text.Trim() == "")
+            if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
@@ -253,10 +270,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else
-            {
                 return true;
-            }
         }
         private bool kiemtraSoCanHo(string soCanHo)
         {
@@ -368,5 +382,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }

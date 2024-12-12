@@ -28,7 +28,8 @@ namespace QuanLyChungCu.Pages
         {
             Xem = 0,
             Them = 1,
-            Sua = 2
+            Sua = 2,
+            HienThi = 3
         }
         public QLVatTu()
         {
@@ -77,6 +78,18 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+
+                    txtTenVatTu.Text = row["TenVatTu"].ToString();
+                    intSoLuong.Text = row["SoLuong"].ToString();
+                    comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
+                    txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
+
+                    break;
+                case TrangThaiHienTai.HienThi:
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Collapsed;
 
                     txtTenVatTu.Text = row["TenVatTu"].ToString();
                     intSoLuong.Text = row["SoLuong"].ToString();
@@ -173,14 +186,14 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (intSoLuong.Text.Trim() == "") {
+            if (intSoLuong.Text.Trim() == "") {
                 MessageBox.Show("Bạn chưa nhập số lượng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
                 popup.IsOpen = true;
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else if (txtQuanLy.Text.Trim() == "")
+            if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 comboboxQuanLy.Focus();
@@ -188,9 +201,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else {
-                return true;
-            }
+            return true;
         }
         private void btnLuu_Click(object sender, RoutedEventArgs e)
         {
@@ -271,5 +282,15 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+        private void btnXem_Click(object sender, RoutedEventArgs e) {
+            if (dtview.SelectedItem != null) {
+                _trangThaiHienTai = TrangThaiHienTai.HienThi;
+                LoadStatus();
+            }
+            else {
+                MessageBox.Show("Vui lòng chọn thông tin cần xem!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+        }
     }
 }
