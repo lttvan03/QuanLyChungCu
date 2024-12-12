@@ -34,6 +34,7 @@ namespace QuanLyChungCu.Pages
             InitializeComponent();
             Load();
         }
+
         private void Load() {
             LoadStatus();
             LoadDataGrid();
