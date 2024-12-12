@@ -38,7 +38,7 @@ namespace QuanLyChungCu.Pages
             Load();
         }
 
-    private void Load() {
+        private void Load() {
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxQuyen();
@@ -67,7 +67,7 @@ namespace QuanLyChungCu.Pages
 
                     txtIDTaiKhoan.Text = "";
                     txtTenNguoiDung.Text = "";
-                    txtMatKhau.Text = "123456";
+                    txtMatKhau.Password = "123456";
                     comboboxQuyen.Text = "Quản lý";
                     
 
@@ -84,7 +84,7 @@ namespace QuanLyChungCu.Pages
                     txtSDT.Visibility = Visibility.Collapsed;
 
                     txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
-                    txtMatKhau.Text = row["MatKhau"].ToString();
+                    txtMatKhau.Password = row["MatKhau"].ToString();
                     txtTenNguoiDung.Text = row["TenNguoiDung"].ToString();
                     comboboxQuyen.SelectedValue = row["QuyenHan"].ToString();
 
@@ -126,7 +126,7 @@ namespace QuanLyChungCu.Pages
                 DataRowView row = (DataRowView)dtview.SelectedItem;
 
                 txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
-                txtMatKhau.Text = row["MatKhau"].ToString();
+                txtMatKhau.Password = row["MatKhau"].ToString();
                 txtTenNguoiDung.Text = row["TenNguoiDung"].ToString();
                 comboboxQuyen.SelectedValue = row["QuyenHan"].ToString();
             }
@@ -209,11 +209,35 @@ namespace QuanLyChungCu.Pages
                 return true;
             }
         }
+        private bool kiemtraIDTaiKhoan(string IDTaiKhoan) {
+            popup.IsOpen = false; // Tạm thời ẩn Popup
+            overlayGrid.Visibility = Visibility.Collapsed;
+
+            string sSQL = $"SELECT COUNT(*) FROM TaiKhoan WHERE IDTaiKhoan = '{IDTaiKhoan}'";
+            DataTable dt = Connect.DataTransport(sSQL);
+            if (dt.Rows.Count > 0) {
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                return count > 0;
+            }
+            return false;
+        }
+
         private void btnLuu_Click(object sender, RoutedEventArgs e) {            
             string sSQL = "";
+            if (_trangThaiHienTai == TrangThaiHienTai.Them) {
+                if (kiemtraIDTaiKhoan(txtIDTaiKhoan.Text.Trim())) {
+                    MessageBox.Show("ID tài khoản đã tồn tại.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtIDTaiKhoan.Focus();
+                    popup.IsOpen = true;
+                    overlayGrid.Visibility = Visibility.Visible;
+                    return;
+                }
+            }
+
+
             switch (_trangThaiHienTai) {
                 case TrangThaiHienTai.Sua:
-                    sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhau.Text}' WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
+                    sSQL = $"UPDATE TaiKhoan SET MatKhau = '{txtMatKhau.Password}' WHERE IDTaiKhoan = '{txtIDTaiKhoan.Text}'";
                     Connect.DataExecution1(sSQL);
                     _trangThaiHienTai = TrangThaiHienTai.Xem;
                     LoadStatus();

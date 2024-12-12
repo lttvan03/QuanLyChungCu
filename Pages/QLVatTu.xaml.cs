@@ -94,9 +94,10 @@ namespace QuanLyChungCu.Pages
 
                 string sSQL = $"SELECT * FROM VatTu " +
                     $"INNER JOIN NguoiQuanLy ON VatTu.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
-                    $"WHERE LOWER(TenVatTu) LIKE LOWER('%{searchText}%') OR LOWER(SoLuong) LIKE LOWER('%{searchText}%') " +
-                    $"OR LOWER(IDVatTu) LIKE LOWER(N'%{searchText}%')" +
-                    $"OR LOWER(VatTu.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
+                    $"WHERE LOWER(TenVatTu) LIKE LOWER(N'%{searchText}%') OR LOWER(SoLuong) LIKE LOWER('%{searchText}%') " +
+                    $"OR LOWER(IDVatTu) LIKE LOWER('%{searchText}%')" +
+                    $"OR LOWER(VatTu.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')" +
+                    $" OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%')";
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
                 dtview.ItemsSource = dTimKiem.DefaultView;
@@ -172,6 +173,13 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
+            else if (intSoLuong.Text.Trim() == "") {
+                MessageBox.Show("Bạn chưa nhập số lượng.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                comboboxQuanLy.Focus();
+                popup.IsOpen = true;
+                overlayGrid.Visibility = Visibility.Visible;
+                return false;
+            }
             else if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -180,8 +188,7 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-            else
-            {
+            else {
                 return true;
             }
         }

@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using Microsoft.Data.SqlClient;
 using QuanLyChungCu.ConnectDatabase;
 using System;
+=======
+﻿using System;
+>>>>>>> 616554e69bf410811900c45cd243b7d41b8c38fa
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -27,6 +31,7 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class KVThuongMai : Page
     {
+<<<<<<< HEAD
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -278,5 +283,10 @@ namespace QuanLyChungCu.Pages
             }
         }
 
+=======
+        public KVThuongMai() {
+            InitializeComponent();
+        }
+>>>>>>> 616554e69bf410811900c45cd243b7d41b8c38fa
     }
 }

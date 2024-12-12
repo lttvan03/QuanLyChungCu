@@ -79,8 +79,7 @@
                                         MinWidth="150"
                                         MaxWidth="200"
                                         Width="*"></DataGridTextColumn>
-
-                            <DataGridTextColumn Header="Mật khẩu" 
+                            <DataGridTextColumn Header="Mật khẩu" Visibility="Collapsed"
                                         MaxWidth="150"
                                         MinWidth="100"
                                         Width="*"
@@ -135,17 +134,17 @@
                                                    materialDesign:HintAssist.Hint="Số điện thoại"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 10 10"
+                    <PasswordBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 10 10"
                                                    x:Name="txtMatKhau"
                                                    materialDesign:HintAssist.Hint="Mật khẩu (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
-                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
-                    </materialDesign:AutoSuggestBox>
+                                                   Style="{StaticResource MaterialDesignOutlinedPasswordBox}">
+                    </PasswordBox>
                     <ComboBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 10 10"
                               x:Name="comboboxQuyen"
                               DisplayMemberPath="QuyenHan"
                               SelectedValuePath="QuyenHan"
-                              materialDesign:HintAssist.Hint="Quyền (Bắt buộc)"
+                              materialDesign:HintAssist.Hint="Quyền (Mặc định là quản lý)"
                               Style="{StaticResource MaterialDesignOutlinedComboBox}"
                               SelectionChanged="comboboxQuyen_SelectionChanged">
                     </ComboBox>

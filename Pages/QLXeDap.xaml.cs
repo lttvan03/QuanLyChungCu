@@ -25,6 +25,7 @@ namespace QuanLyChungCu.Pages
     {
         private string currentUserQH;
         private string currentUserID;
+        private string soCanHo;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
         public enum TrangThaiHienTai
@@ -40,6 +41,7 @@ namespace QuanLyChungCu.Pages
         private void Load() {
             currentUserID = GetCurrentUserID();
             currentUserQH = GetCurrentUserQH();
+            soCanHo = GetCurrentSoCanHo();
             LoadStatus();
             LoadDataGrid();
             LoadComboBoxCuDan();
@@ -51,9 +53,12 @@ namespace QuanLyChungCu.Pages
         private string GetCurrentUserQH() {
             return App.Current.Properties["UserRole"]?.ToString();
         }
+        private string GetCurrentSoCanHo() {
+            return App.Current.Properties["SoCanHo"]?.ToString();
+        }
         private void LoadDataGrid() {
             if(currentUserQH == "Cư dân") {
-                string sSQL = $"SELECT * FROM XeDap INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE XeDap.IDCuDan = '{currentUserID}'";
+                string sSQL = $"SELECT * FROM XeDap INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy WHERE CuDan.SoCanHo = '{soCanHo}'";
                 dGrid = Connect.DataTransport(sSQL);
                 btnThem.Visibility = Visibility.Collapsed;
                 btnSua.Visibility = Visibility.Collapsed;
@@ -107,8 +112,19 @@ namespace QuanLyChungCu.Pages
         private void btnTimKiem_Click(object sender, RoutedEventArgs e) {
             if (!string.IsNullOrEmpty(txtTimKiem.Text)) {
                 string searchText = txtTimKiem.Text.ToLower().Trim();
-
-                string sSQL = $"SELECT * FROM XeDap " +
+                string sSQL = "";
+                if(currentUserQH == "Cư dân") {
+                    sSQL = $"SELECT * FROM XeDap " +
+                       $"INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan " +
+                       $"INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
+                       $"WHERE (LOWER(IDXeDap) LIKE LOWER('%{searchText}%') " +
+                       $"OR LOWER(LoaiXe) LIKE LOWER(N'%{searchText}%') OR LOWER(MauXe) LIKE LOWER(N'%{searchText}%') " +
+                       $"OR LOWER(CuDan.TenCuDan) LIKE LOWER(N'%{searchText}%') OR LOWER(NguoiQuanLy.TenNguoiQuanLy) LIKE LOWER(N'%{searchText}%') " +
+                       $"OR LOWER(XeDap.IDCuDan) LIKE LOWER('%{searchText}%') " +
+                       $"OR LOWER(XeDap.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')) " +
+                       $"AND CuDan.SoCanHo = '{soCanHo}'";
+                }
+                sSQL = $"SELECT * FROM XeDap " +
                     $"INNER JOIN CuDan ON XeDap.IDCuDan = CuDan.IDCuDan " +
                     $"INNER JOIN NguoiQuanLy ON XeDap.IDNguoiQuanLy = NguoiQuanLy.IDNguoiQuanLy " +
                     $"WHERE LOWER(IDXeDap) LIKE LOWER('%{searchText}%') " +

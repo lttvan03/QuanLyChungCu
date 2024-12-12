@@ -5,10 +5,148 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuanLyChungCu.Pages"
       mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
+      Background="#f1f1f1"
+
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HDThuongMai">
 
-    <Grid>
-        
+    <Grid Margin="10 5 10 10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!-- Header Section -->
+        <Border Grid.Row="0" CornerRadius="10" Padding="5" Background="White">
+            <Grid Height="46">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border CornerRadius="2" BorderThickness="2" BorderBrush="MediumPurple">
+                        <TextBox x:Name="txtTimKiem" materialDesign:HintAssist.Hint="Nhập thông tin cần tìm" Width="280" FontSize="14"
+                                    Padding="6" Height="32"
+                                    VerticalContentAlignment="Center" VerticalAlignment="Center"></TextBox>
+                    </Border>
+                    <Button x:Name="btnTimKiem" Content="Tìm kiếm" Width="100" Margin="10 0 8 0" Click="btnTimKiem_Click"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" CornerRadius="10" Margin="0 10 0 5" Background="White">
+
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="71*"/>
+                    <ColumnDefinition Width="124*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="16 8 0 16" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Hóa đơn thương mại" VerticalAlignment="Center" HorizontalAlignment="Left"
+                           FontSize="18" Margin="10 0 0 0"></TextBlock>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                        <Button x:Name="btnThem" Content="Thêm" Width="100" Margin="8 0 10 0" Click="btnThem_Click"></Button>
+                        <Button x:Name="btnSua" Content="Sửa" Width="100" Margin="0 0 10 0" Click="btnSua_Click" ></Button>
+                        <Button x:Name="btnXoa" Content="Xóa" Width="100" Margin="0 0 16 0" Click="btnXoa_Click"></Button>
+                    </StackPanel>
+
+                </Grid>
+                <Border Grid.Row="1" CornerRadius="4" Margin="10 5 16 20" Background="#c5c5c5" Height="auto" Grid.ColumnSpan="2">
+                    <DataGrid x:Name="dtview" Background="White"
+                              IsReadOnly="True" AutoGenerateColumns="False" 
+                              SelectionChanged="dtview_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID Hóa đơn" 
+                                        Binding="{Binding IDHoaDon}"
+                                        MinWidth="80"
+                                        MaxWidth="100"
+                                        Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID Mặt bằng thương mại" 
+                                        Binding="{Binding IDMBTM}"
+                                        MinWidth="150"
+                                        MaxWidth="200"
+                                        Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Số tiền" 
+                                        MaxWidth="150"
+                                        MinWidth="100"
+                                        Width="*"
+                                        Binding="{Binding SoTien}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Hạn thanh toán" 
+                                        MinWidth="100"
+                                        Width="*"
+                                        Binding="{Binding HanThanhToan, StringFormat='{}{0:dd/MM/yyyy}'}"></DataGridTextColumn>
+                            <DataGridTextColumn  Header="Trạng thái" 
+                                        MinWidth="100"
+                                        Width="*"
+                                        Binding="{Binding TrangThai}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Grid>
+        </Border>
+        <!-- Placement="Center" IsOpen="False" StaysOpen="True" -->
+        <Grid x:Name="overlayGrid" Width="auto" Height="auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Background="Black" Opacity="0.5" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Popup x:Name="popup" Placement="Center" IsOpen="False" StaysOpen="True" HorizontalAlignment="Center" VerticalAlignment="Center" Width="640" Height="auto">
+            <Border CornerRadius="8" Background="White" Width="640" Height="auto" Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Hóa đơn thương mại" FontSize="18" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 8 0 0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 16 10" IsReadOnly="True"
+                                                   x:Name="txtIDHoaDon" 
+                                                   materialDesign:HintAssist.Hint="ID hóa đơn (Mặc định)" 
+                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
+                    </materialDesign:AutoSuggestBox>
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
+                                                   x:Name="floatSoTien"
+                                                   materialDesign:HintAssist.Hint="Số tiền (Bắt buộc)"
+                                                   materialDesign:TextFieldAssist.HasClearButton="True"
+                                                   Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
+                    </materialDesign:AutoSuggestBox>
+                    <DatePicker Grid.Row="2" Grid.Column="1"  Margin="10 0 16 10"
+                                                   x:Name="dtHanThanhToan" 
+                                                   materialDesign:HintAssist.Hint="Hạn thanh toán (bắt buộc)" 
+                                                   IsEnabled="True" 
+                                                   Style="{StaticResource MaterialDesignOutlinedDatePicker}">
+                    </DatePicker>
+                    <ComboBox Grid.Row="3" Grid.Column="0" Margin="16 0 10 10"
+                              x:Name="comboboxTrangThai"
+                              DisplayMemberPath="TrangThai"
+                              SelectedValuePath="TrangThai"
+                              materialDesign:HintAssist.Hint="Trạng thái (Bắt buộc)"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    </ComboBox>
+                    <ComboBox Grid.Row="3" Grid.Column="1"  Margin="10 0 16 10"
+                              x:Name="comboboxMBTM"
+                              DisplayMemberPath="IDMBTM"
+                              SelectedValuePath="IDMBTM"
+                              materialDesign:HintAssist.Hint="ID Mặt bằng thương mại (Bắt buộc)"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    </ComboBox>
+                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 0 8">
+                        <Button x:Name="btnLuu"  Content="Lưu" Width="100" Click="btnLuu_Click"/>
+                        <Button x:Name="btnHuy" Content="Hủy" Width="100" Margin="5 0 10 0" Click="btnHuy_Click" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
+
 </Page>

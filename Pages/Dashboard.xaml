@@ -32,7 +32,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <StackPanel >
-                            <TextBlock x:Name="CountCanHo" FontSize="30" Text="15" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock x:Name="CountCanHo" FontSize="30" Margin="10" Foreground="White"></TextBlock>
                             <TextBlock FontSize="16" Text="Căn hộ" Margin="10 0 0 10" Foreground="White"></TextBlock>
                         </StackPanel>
                     </Grid>
@@ -63,7 +63,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <StackPanel >
-                            <TextBlock FontSize="30" Text="26" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock x:Name="CountCuDan" FontSize="30" Margin="10" Foreground="White"></TextBlock>
                             <TextBlock FontSize="16" Text="Cư dân" Margin="10 0 0 10" Foreground="White"></TextBlock>
                         </StackPanel>
                     </Grid>
@@ -97,7 +97,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <StackPanel >
-                            <TextBlock FontSize="30" Text="27" Margin="10" Foreground="White"></TextBlock>
+                            <TextBlock x:Name="CountPT" FontSize="30" Margin="10" Foreground="White"></TextBlock>
                             <TextBlock FontSize="16" Text="Phương tiện" Margin="10 0 0 10" Foreground="White"></TextBlock>
                         </StackPanel>
                     </Grid>

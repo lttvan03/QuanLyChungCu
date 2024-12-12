@@ -22,7 +22,7 @@ namespace QuanLyChungCu.Pages
     /// </summary>
     public partial class QLCanHo : Page
     {
-                private string currentUserQH;
+        private string currentUserQH;
         private string currentUserID;
         private DataTable dGrid = new DataTable();
         private TrangThaiHienTai _trangThaiHienTai = TrangThaiHienTai.Xem;
@@ -125,6 +125,17 @@ namespace QuanLyChungCu.Pages
                     $"OR LOWER(CanHo.IDNguoiQuanLy) LIKE LOWER('%{searchText}%')";
 
                 DataTable dTimKiem = Connect.DataTransport(sSQL);
+
+                dTimKiem.Columns.Add("SoXe", typeof(string));
+
+                foreach (DataRow row in dTimKiem.Rows) {
+                    int soOTo = Convert.ToInt32(row["SoOTo"]);
+                    int soXeMay = Convert.ToInt32(row["SoXeMay"]);
+                    int soXeDap = Convert.ToInt32(row["SoXeDap"]);
+                    string SoXe = $"Ô tô: {soOTo}, Xe máy: {soXeMay}, Xe đạp: {soXeDap}";
+                    row["SoXe"] = SoXe;
+                }
+
                 dtview.ItemsSource = dTimKiem.DefaultView;
             }
             else

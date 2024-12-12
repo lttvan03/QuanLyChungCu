@@ -17,7 +17,7 @@ namespace QuanLyChungCu
             this.dbContext = dbContext; // Gán dbContext đã được truyền vào
         }
 
-        public User Login(string username, string password) {
+        public TaiKhoan Login(string username, string password) {
             // Tìm kiếm user trong cơ sở dữ liệu
             var user = dbContext.TaiKhoan
                 .FirstOrDefault(u => u.IDTaiKhoan.ToLower() == username.Trim().ToLower());
