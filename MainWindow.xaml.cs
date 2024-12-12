@@ -20,10 +20,12 @@ namespace QuanLyChungCu
     {
         public bool isExit = true;
         public event EventHandler Logout;
+        public static MainWindow Instance { get; private set; }
         public MainWindow() {
             InitializeComponent();
 
             MainWindowFrame.Navigate(new Dashboard());
+            Instance = this;
 
         }
         private void btnLogout_Click(object sender, RoutedEventArgs e) {

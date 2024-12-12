@@ -54,6 +54,7 @@ namespace QuanLyChungCu
                             }
                         }
                         MainWindow maindWin = new MainWindow();
+                        Application.Current.MainWindow = maindWin;
                         maindWin.Show();
                         this.Hide();
 
