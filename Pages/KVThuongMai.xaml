@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:QuanLyChungCu.Pages"
       mc:Ignorable="d" 
+
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
       Background="#f1f1f1"
@@ -114,32 +115,32 @@
                     <TextBlock Text="Thông tin mặt bằng" FontSize="18" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 8 0 0"
                                HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Margin="16 0 10 10" IsReadOnly="True"
+                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="16 0 16 10" IsReadOnly="True"
                                                    x:Name="txtIDMBTM" 
                                                    materialDesign:HintAssist.Hint="ID MBTM (Mặc định)" 
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="1" Grid.Column="1"  Margin="10 0 16 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0"  Margin="16 0 10 10"
                                                    x:Name="txtDienTich"
-                                                   materialDesign:HintAssist.Hint="Diện tích"
+                                                   materialDesign:HintAssist.Hint="Diện tích (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
                                                    x:Name="txtTenDonViThue"
                                                    materialDesign:HintAssist.Hint="Tên đơn vị thuê"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtGiaThue"
-                                                   materialDesign:HintAssist.Hint="Giá thuê"
+                                                   materialDesign:HintAssist.Hint="Giá thuê (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
-                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0"  Margin="16 0 10 10"
+                    <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="1"  Margin="10 0 16 10"
                                                    x:Name="txtTinhTrang"
-                                                   materialDesign:HintAssist.Hint="Tình trạng"
+                                                   materialDesign:HintAssist.Hint="Tình trạng (Bắt buộc)"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>
@@ -165,3 +166,5 @@
         </Popup>
     </Grid>
 </Page>
+
+
