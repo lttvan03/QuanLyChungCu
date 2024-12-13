@@ -255,15 +255,6 @@ namespace QuanLyChungCu.Pages
                 overlayGrid.Visibility = Visibility.Visible;
                 return false;
             }
-
-            if (txtSoCuDan.Text.Trim() == "")
-            {
-                MessageBox.Show("Bạn chưa nhập số cư dân.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                txtSoCuDan.Focus();
-                popup.IsOpen = true;
-                overlayGrid.Visibility = Visibility.Visible;
-                return false;
-            }
             if (txtQuanLy.Text.Trim() == "")
             {
                 MessageBox.Show("Bạn chưa chọn người quản lý.", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Warning);

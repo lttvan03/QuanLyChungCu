@@ -129,7 +129,7 @@
                     </ComboBox>
                     <materialDesign:AutoSuggestBox Grid.Row="2" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtSoCuDan"
-                                                   materialDesign:HintAssist.Hint="Số cư dân (Bắt buộc)"
+                                                   materialDesign:HintAssist.Hint="Số cư dân"
                                                    materialDesign:TextFieldAssist.HasClearButton="True"
                                                    Style="{StaticResource MaterialDesignOutlinedAutoSuggestBox}">
                     </materialDesign:AutoSuggestBox>

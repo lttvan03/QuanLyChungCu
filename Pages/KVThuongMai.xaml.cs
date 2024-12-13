@@ -126,7 +126,7 @@ namespace QuanLyChungCu.Pages
             DataTable dt_cudan = new DataTable();
             dt_cudan.Columns.Add("TrangThai", typeof(string));
             dt_cudan.Rows.Add("Chưa cho thuê");
-            dt_cudan.Rows.Add("Đang cho thuê");
+            dt_cudan.Rows.Add("Đang thuê");
             comboboxTrangThai.ItemsSource = dt_cudan.DefaultView;
             comboboxTrangThai.DisplayMemberPath = "TrangThai"; // Tên cột hiển thị
             comboboxTrangThai.SelectedValuePath = "TrangThai"; // Giá trị được chọn
