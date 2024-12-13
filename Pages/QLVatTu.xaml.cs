@@ -66,6 +66,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtTenVatTu.Text = "";
                     intSoLuong.Text = "";
@@ -78,6 +79,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtTenVatTu.Text = row["TenVatTu"].ToString();
                     intSoLuong.Text = row["SoLuong"].ToString();

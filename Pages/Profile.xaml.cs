@@ -137,7 +137,8 @@ namespace QuanLyChungCu.Pages
 
             txtMatKhau.Password = "";
             txtMatKhauNew.Password = "";
-            txtNhapLaiMK.Password = ""; 
+            txtNhapLaiMK.Password = "";
+            LoadData();
         }
 
         private void btnAvatar_Click(object sender, RoutedEventArgs e) {

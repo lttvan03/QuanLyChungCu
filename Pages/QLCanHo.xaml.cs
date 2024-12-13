@@ -75,6 +75,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtSoCanHo.Text = "";
                     comboboxTang.SelectedValue = "";
@@ -90,6 +91,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtSoCanHo.Text = row["SoCanHo"].ToString();
                     comboboxTang.SelectedValue = row["SoTang"].ToString();

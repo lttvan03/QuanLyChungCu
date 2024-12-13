@@ -61,6 +61,7 @@ namespace QuanLyChungCu.Pages
             LoadDataGrid();
             LoadComboBoxQuanLy();
             LoadComboBoxCanHo();
+            LoadComboBoxGioiTinh();
         }
         private void LoadDataGrid()
         {
@@ -93,13 +94,13 @@ namespace QuanLyChungCu.Pages
                 case TrangThaiHienTai.Them:
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
+                    btnLuu.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
 
                     txtIDCuDan.Text = "";
                     txtTenCuDan.Text = "";
                     dpNgaySinh.SelectedDate = null;
-                    gioiTinh = row["GioiTinh"].ToString();
-                    comboboxGioiTinh.SelectedItem = "";
+                    comboboxGioiTinh.SelectedValue = null;
                     txtGiayToTuyThan.Text = "";
                     comboboxCanHo.SelectedValue = "";
                     comboboxQuanLy.SelectedValue = "";
@@ -109,13 +110,14 @@ namespace QuanLyChungCu.Pages
                 case TrangThaiHienTai.Sua:
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
+                    btnLuu.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
 
                     txtIDCuDan.Text = row["IDCuDan"].ToString();
                     txtTenCuDan.Text = row["TenCuDan"].ToString();
                     dpNgaySinh.SelectedDate = Convert.ToDateTime(row["NgaySinh"]);
-                    comboboxGioiTinh.SelectedItem = comboboxGioiTinh.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == gioiTinh);
                     txtGiayToTuyThan.Text = row["GiayToTuyThan"].ToString();
+                    comboboxGioiTinh.SelectedValue = row["GioiTinh"].ToString();
                     comboboxCanHo.SelectedValue = row["SoCanHo"].ToString();
                     comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
                     txtQuanLy.Text = row["TenNguoiQuanLy"].ToString();
@@ -129,9 +131,8 @@ namespace QuanLyChungCu.Pages
 
                     txtIDCuDan.Text = row["IDCuDan"].ToString();
                     txtTenCuDan.Text = row["TenCuDan"].ToString();
-                    gioiTinh = row["GioiTinh"].ToString();
                     dpNgaySinh.SelectedDate = Convert.ToDateTime(row["NgaySinh"]);
-                    comboboxGioiTinh.SelectedItem = comboboxGioiTinh.Items.Cast<ComboBoxItem>().FirstOrDefault(item => item.Content.ToString() == gioiTinh);
+                    comboboxGioiTinh.SelectedValue = row["GioiTinh"].ToString();
                     txtGiayToTuyThan.Text = row["GiayToTuyThan"].ToString();
                     comboboxCanHo.SelectedValue = row["SoCanHo"].ToString();
                     comboboxQuanLy.SelectedValue = row["IDNguoiQuanLy"].ToString();
@@ -261,13 +262,15 @@ namespace QuanLyChungCu.Pages
                 MessageBox.Show("Không có dữ liệu người quản lý!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        private void comboboxGioiTinh_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (comboboxGioiTinh.SelectedItem != null)
-            {
-                string selectedGioiTinh = (comboboxGioiTinh.SelectedItem as ComboBoxItem)?.Content.ToString();
-
-            }
+        private void LoadComboBoxGioiTinh() {
+            DataTable dt_cudan = new DataTable();
+            dt_cudan.Columns.Add("GioiTinh", typeof(string));
+            dt_cudan.Rows.Add("Nam");
+            dt_cudan.Rows.Add("Nữ");
+            dt_cudan.Rows.Add("Khác");
+            comboboxGioiTinh.ItemsSource = dt_cudan.DefaultView;
+            comboboxGioiTinh.DisplayMemberPath = "GioiTinh"; // Tên cột hiển thị
+            comboboxGioiTinh.SelectedValuePath = "GioiTinh"; // Giá trị được chọn
         }
         private void btnHuy_Click(object sender, RoutedEventArgs e)
         {
@@ -350,13 +353,12 @@ namespace QuanLyChungCu.Pages
             string sSQL = "";
             string selectedSoCanHo = ((DataRowView)comboboxCanHo.SelectedItem)["SoCanHo"].ToString();
             string selectedIDNguoiQuanLy = ((DataRowView)comboboxQuanLy.SelectedItem)["IDNguoiQuanLy"].ToString();
-            string gioiTinh = (comboboxGioiTinh.SelectedItem as ComboBoxItem)?.Content.ToString() ?? string.Empty;
-
+            string selectedGioiTinh = ((DataRowView)comboboxGioiTinh.SelectedItem)["GioiTinh"].ToString();
             switch (_trangThaiHienTai)
             {
                 case TrangThaiHienTai.Sua:
                     sSQL = $"UPDATE CuDan SET TenCuDan = N'{txtTenCuDan.Text}', NgaySinh = '{dpNgaySinh.SelectedDate.Value.ToString("yyyy-MM-dd")}', " +
-                                           $"GioiTinh = N'{gioiTinh}', GiayToTuyThan = '{txtGiayToTuyThan.Text}', " +
+                                           $"GioiTinh = N'{selectedGioiTinh}', GiayToTuyThan = '{txtGiayToTuyThan.Text}', " +
                                            $"SoCanHo = '{selectedSoCanHo}', " +
                                            $"IDNguoiQuanLy = '{selectedIDNguoiQuanLy}' " +
                                            $"WHERE IDCuDan = '{txtIDCuDan.Text}'";
@@ -369,7 +371,7 @@ namespace QuanLyChungCu.Pages
                 case TrangThaiHienTai.Them:
                     sSQL = $"INSERT INTO CuDan(IDCuDan, TenCuDan, NgaySinh, GioiTinh, GiayToTuyThan, SoCanHo, IDNguoiQuanLy) VALUES(" +
                           $"'{txtIDCuDan.Text}', N'{txtTenCuDan.Text}', '{dpNgaySinh.SelectedDate.Value.ToString("yyyy-MM-dd")}', " +
-                          $"N'{comboboxGioiTinh.SelectedItem}', '{txtGiayToTuyThan.Text}', " +
+                          $"N'{selectedGioiTinh}', '{txtGiayToTuyThan.Text}', " +
                           $"'{selectedSoCanHo}', " +
                           $"'{selectedIDNguoiQuanLy}')";
                     Connect.DataExecution1(sSQL);
@@ -414,12 +416,19 @@ namespace QuanLyChungCu.Pages
                     if (MessageBox.Show("Bạn có muốn xóa Cư Dân có ID là " + id, "Thông báo",
                             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        sSQL = $"DELETE FROM CuDan WHERE IDCuDan = '{txtIDCuDan.Text}'";
-                        sSQL1 = $"DELETE FROM TaiKhoan WHERE IDCuDan = '{txtIDCuDan.Text}'";
+                        sSQL = $"DELETE FROM CuDan WHERE IDCuDan = '{id}'";
+                        sSQL1 = $"DELETE FROM TaiKhoan WHERE IDTaiKhoan = '{id}'";
                         // Thực thi câu lệnh xóa
+                        Connect.DataExecution1($"DELETE FROM CuDan_CanHo WHERE IDCuDan = N'{id}'");
+                        Connect.DataExecution1($"DELETE FROM XeMay WHERE IDCuDan = N'{id}'");
+                        Connect.DataExecution1($"DELETE FROM XeDap WHERE IDCuDan = N'{id}'");
+                        Connect.DataExecution1($"DELETE FROM XeOTo WHERE IDCuDan = N'{id}'");
                         int result1 = Connect.DataExecution1(sSQL1);
                         int result = Connect.DataExecution1(sSQL);
                         LoadDataGrid(); // Cập nhật lại DataGrid
+                    }
+                    else {
+                        MessageBox.Show("Xóa không thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }

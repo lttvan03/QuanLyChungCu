@@ -86,6 +86,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDHoaDon.Text = "";
                     floatSoTien.Text = "";
@@ -100,6 +101,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDHoaDon.Text = row["IDHoaDon"].ToString();
                     floatSoTien.Text = row["SoTien"].ToString();

@@ -62,6 +62,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDMBTM.Text = "";
                     txtDienTich.Text = "";
@@ -76,6 +77,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDMBTM.Text = row["IDMBTM"].ToString();
                     txtDienTich.Text = row["DienTich"].ToString();

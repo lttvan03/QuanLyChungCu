@@ -65,6 +65,7 @@ namespace QuanLyChungCu.Pages
                     overlayGrid.Opacity = 0.5;
                     txtNgaySinh.Visibility = Visibility.Visible;
                     txtSDT.Visibility = Visibility.Visible;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDTaiKhoan.Text = "";
                     txtTenNguoiDung.Text = "";
@@ -83,6 +84,7 @@ namespace QuanLyChungCu.Pages
                     overlayGrid.Opacity = 0.5;
                     txtNgaySinh.Visibility = Visibility.Collapsed;
                     txtSDT.Visibility = Visibility.Collapsed;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDTaiKhoan.Text = row["IDTaiKhoan"].ToString();
                     txtMatKhau.Password = row["MatKhau"].ToString();

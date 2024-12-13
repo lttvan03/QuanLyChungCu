@@ -88,6 +88,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDXeMay.Text = "";
                     txtBienSoXe.Text = "";
@@ -103,6 +104,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDXeMay.Text = row["IDXeMay"].ToString();
                     txtBienSoXe.Text = row["BienSoXe"].ToString();

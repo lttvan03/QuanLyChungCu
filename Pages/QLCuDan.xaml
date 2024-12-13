@@ -141,11 +141,7 @@
                     <ComboBox Grid.Row="2" Grid.Column="1" Margin="10 0 16 10"
                                                    x:Name="comboboxGioiTinh"
                                                    materialDesign:HintAssist.Hint="Giới tính"
-                                                   Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                   SelectionChanged="comboboxGioiTinh_SelectionChanged">
-                        <ComboBoxItem Content="Nam"/>
-                        <ComboBoxItem Content="Nữ"/>
-                        <ComboBoxItem Content="Khác"/>
+                                                   Style="{StaticResource MaterialDesignOutlinedComboBox}">
                     </ComboBox>
                     <materialDesign:AutoSuggestBox Grid.Row="3" Grid.Column="0" Margin="16 0 10 10"
                                                    x:Name="txtGiayToTuyThan"

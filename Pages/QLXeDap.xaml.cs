@@ -84,6 +84,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDXeDap.Text = "";
                     txtLoaiXe.Text = "";
@@ -98,6 +99,7 @@ namespace QuanLyChungCu.Pages
                     popup.IsOpen = true;
                     overlayGrid.Visibility = Visibility.Visible;
                     overlayGrid.Opacity = 0.5;
+                    btnLuu.Visibility = Visibility.Visible;
 
                     txtIDXeDap.Text = row["IDXeDap"].ToString();
                     txtLoaiXe.Text = row["LoaiXe"].ToString();
